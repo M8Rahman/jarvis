@@ -1,50 +1,60 @@
 """
 core/safety.py
 ──────────────
-Safety layer: emergency stop, action validation, and state tracking.
+Safety layer: emergency stop and audit logging.
 
-Rules:
-  • JARVIS never executes two actions simultaneously.
-  • Any module can call safety.engage_stop() to halt everything.
-  • PyAutoGUI failsafe (top-left corner) is always enabled — see executor.py.
-  • All actions are logged to logs/actions.log for audit.
+FIX: audit log now writes to configured log_dir (E:/Projects/JARVIS/logs/)
+instead of hardcoded relative 'logs/' path.
 """
 
 import logging
-import datetime
+import logging.handlers
+import os
 
 from core.state import AssistantState
 
 log = logging.getLogger("jarvis.safety")
 
-# Separate audit log for every executed action
-audit_log = logging.getLogger("jarvis.audit")
-_fh = logging.FileHandler("logs/actions.log", encoding="utf-8")
-_fh.setFormatter(logging.Formatter("%(asctime)s | %(message)s"))
-audit_log.addHandler(_fh)
-audit_log.setLevel(logging.INFO)
+
+def _build_audit_logger() -> logging.Logger:
+    """Build audit logger pointing to configured log directory."""
+    from config.settings import settings
+    log_dir  = settings.str("log_dir", "logs")
+    log_path = os.path.join(log_dir, "actions.log")
+    os.makedirs(log_dir, exist_ok=True)
+
+    audit = logging.getLogger("jarvis.audit")
+    if not audit.handlers:   # avoid duplicate handlers on re-import
+        fh = logging.handlers.RotatingFileHandler(
+            log_path, maxBytes=2_097_152, backupCount=2, encoding="utf-8"
+        )
+        fh.setFormatter(logging.Formatter("%(asctime)s | %(message)s"))
+        audit.addHandler(fh)
+        audit.setLevel(logging.INFO)
+    return audit
 
 
 class SafetyGuard:
 
     def __init__(self, state: AssistantState):
-        self._state = state
+        self._state      = state
+        self._audit_log  = _build_audit_logger()
 
     @property
     def is_stopped(self) -> bool:
         return self._state.emergency_stop
 
     def engage_stop(self):
-        """Immediately set emergency stop flag. All handlers must check this."""
         self._state.emergency_stop = True
         log.warning("Emergency stop engaged.")
 
     def reset_stop(self):
-        """Clear emergency stop (only call manually / at startup)."""
         self._state.emergency_stop = False
         log.info("Emergency stop cleared.")
 
-    def log_action(self, action_name: str, params: dict, success: bool, note: str = ""):
-        """Write to audit log."""
+    def log_action(self, action_name: str, params: dict,
+                   success: bool, note: str = ""):
         status = "OK" if success else "FAIL"
-        audit_log.info("%s | %s | params=%s | %s", action_name, status, params, note)
+        self._audit_log.info(
+            "%s | %s | params=%s | %s", action_name, status, params, note
+        )

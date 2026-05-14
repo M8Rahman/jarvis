@@ -81,3 +81,27 @@
 2026-05-14 13:34:17 [WARNING] jarvis.tts: TTS RuntimeError: run loop already started
 2026-05-14 13:34:23 [INFO] jarvis.main: Shutting down.
 2026-05-14 13:34:23 [WARNING] jarvis.tts: TTS RuntimeError: run loop already started
+2026-05-14 15:53:01 [INFO] jarvis.settings: Logging ready → E:/Projects/JARVIS/logs\jarvis.log  level=INFO
+2026-05-14 15:53:01 [INFO] jarvis.main: Initialising JARVIS modules…
+2026-05-14 15:53:01 [INFO] jarvis.tts: TTS engine ready (dedicated thread).
+2026-05-14 15:53:01 [INFO] jarvis.listener: Loading Whisper model 'base' (English only)…
+2026-05-14 15:53:01 [INFO] comtypes.client._code_cache: Imported existing <module 'comtypes.gen' from 'C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2026-05-14 15:53:01 [INFO] comtypes.client._code_cache: Using writeable comtypes cache directory: 'C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2026-05-14 15:53:02 [INFO] httpx: HTTP Request: GET https://huggingface.co/api/models/Systran/faster-whisper-base/revision/main "HTTP/1.1 200 OK"
+2026-05-14 15:53:03 [INFO] jarvis.listener: Whisper model loaded.
+2026-05-14 15:53:03 [INFO] jarvis.intent: IntentEngine ready — 8 rules.
+2026-05-14 15:53:03 [INFO] jarvis.main: JARVIS ready | listen=ctrl+shift+a | stop=ctrl+shift+x | quit=Ctrl+C
+2026-05-14 15:53:12 [INFO] faster_whisper: Processing audio with duration 00:02.112
+2026-05-14 15:53:12 [INFO] faster_whisper: VAD filter removed 00:00.000 of audio
+2026-05-14 15:53:14 [INFO] jarvis.listener: Transcribed: I'm listening open
+2026-05-14 15:53:14 [INFO] jarvis.main: Heard: I'm listening open
+2026-05-14 15:53:14 [WARNING] jarvis.intent: No intent matched: "I'm listening open"
+2026-05-14 15:53:34 [INFO] faster_whisper: Processing audio with duration 00:02.112
+2026-05-14 15:53:34 [INFO] faster_whisper: VAD filter removed 00:02.112 of audio
+2026-05-14 15:53:34 [INFO] jarvis.listener: Transcribed: 
+2026-05-14 15:53:42 [INFO] faster_whisper: Processing audio with duration 00:02.112
+2026-05-14 15:53:42 [INFO] faster_whisper: VAD filter removed 00:01.008 of audio
+2026-05-14 15:53:43 [INFO] jarvis.listener: Transcribed: Open
+2026-05-14 15:53:43 [INFO] jarvis.main: Heard: Open
+2026-05-14 15:53:43 [WARNING] jarvis.intent: No intent matched: 'Open'
+2026-05-14 15:53:50 [INFO] jarvis.main: Shutting down.

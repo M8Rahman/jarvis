@@ -40,3 +40,9 @@ log_dir:   "E:/Projects/JARVIS/logs"
 log_level: "INFO"      # DEBUG | INFO | WARNING | ERROR
 log_max_bytes:   5242880   # 5 MB per log file
 log_backup_count: 3        # keep 3 rotated log files
+
+# ── Hotkeys ───────────────────────────────────────────────────────────
+# Change these if you have conflicts with other software.
+# Ctrl+Shift+A is safe in VS Code, Windows, and Outlook.
+listen_hotkey: "ctrl+shift+a"
+stop_hotkey:   "ctrl+shift+x"

@@ -105,9 +105,16 @@ E:/Projects/JARVIS/          ← runtime data (logs, attachments, memory)
 
 | Key | Action |
 |-----|--------|
-| Ctrl+Space | Start listening for a command |
+| Ctrl+Shift+A | Start listening for a command (configurable in jarvis.yaml) |
 | Ctrl+Shift+X | Emergency stop — halts all execution immediately |
 | Ctrl+C | Quit JARVIS |
+
+Hotkeys are configurable in jarvis.yaml:
+  listen_hotkey: "ctrl+shift+a"   ← change if needed
+  stop_hotkey:   "ctrl+shift+x"
+
+WHY Ctrl+Shift+A: Does not conflict with VS Code, Windows system, or Outlook.
+Ctrl+Space (VS Code autocomplete) and Alt+Space (Windows system menu) both conflict.
 
 ---
 
@@ -258,6 +265,12 @@ Inspect with: **DB Browser for SQLite** (free tool)
 - pyttsx3 TTS
 
 ### Phase 1.1 (DONE) ✅
+- **English-only mode** — language="en" in Whisper (faster, no detection overhead)
+- All TTS responses converted to English (Windows SAPI5 has no Bengali voice)
+- TTS threading bug fixed — dedicated worker thread with queue (no more RuntimeError)
+- Hotkey changed to Ctrl+Shift+A (configurable) — no VS Code conflicts
+- Hotkeys configurable in jarvis.yaml (listen_hotkey / stop_hotkey)
+- Audit log path fixed to use configured log_dir
 - Centralised settings (jarvis.yaml + settings.py)
 - Buyer registry system (buyers.yaml)
 - Collection number encoding logic
@@ -287,7 +300,7 @@ Inspect with: **DB Browser for SQLite** (free tool)
 
 ## 13. KNOWN LIMITATIONS / ISSUES
 
-1. **Bangla TTS:** Windows SAPI5 has no Bangla voice. Bengali text is spoken phonetically (imperfect). Responses are mixed English/Bangla so TTS is understandable.
+1. **English only:** Windows SAPI5 has no Bengali voice. All voice commands must be in English. All JARVIS responses are English. Bengali support can be added in Phase 3 with Coqui TTS when RAM >= 16 GB.
 
 2. **ERP workflows:** All ERP functions are stubs. They need real key sequences. Use `tools/record_workflow.py` to capture the steps, then fill in `workflows/erp_workflows.py`.
 
