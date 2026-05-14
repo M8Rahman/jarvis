@@ -1,0 +1,29 @@
+2026-05-14 12:48:13 [INFO] jarvis.settings: Logging ready → E:/Projects/JARVIS/logs\jarvis.log  level=INFO
+2026-05-14 12:48:13 [INFO] jarvis.main: Initialising JARVIS modules…
+2026-05-14 12:48:13 [INFO] comtypes.client._code_cache: Imported existing <module 'comtypes.gen' from 'C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2026-05-14 12:48:13 [INFO] comtypes.client._code_cache: Using writeable comtypes cache directory: 'C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2026-05-14 12:48:13 [INFO] jarvis.tts: TTS engine ready.
+2026-05-14 12:48:13 [INFO] jarvis.listener: Loading Whisper model 'base' …
+2026-05-14 12:48:15 [INFO] httpx: HTTP Request: GET https://huggingface.co/api/models/Systran/faster-whisper-base/revision/main "HTTP/1.1 200 OK"
+2026-05-14 12:48:15 [INFO] httpx: HTTP Request: HEAD https://huggingface.co/Systran/faster-whisper-base/resolve/ebe41f70d5b6dfa9166e2c581c45c9c0cfc57b66/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-14 12:48:15 [WARNING] huggingface_hub.utils._http: Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-05-14 12:48:15 [INFO] httpx: HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Systran/faster-whisper-base/ebe41f70d5b6dfa9166e2c581c45c9c0cfc57b66/config.json "HTTP/1.1 200 OK"
+2026-05-14 12:48:15 [INFO] httpx: HTTP Request: HEAD https://huggingface.co/Systran/faster-whisper-base/resolve/ebe41f70d5b6dfa9166e2c581c45c9c0cfc57b66/tokenizer.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-14 12:48:15 [INFO] httpx: HTTP Request: HEAD https://huggingface.co/Systran/faster-whisper-base/resolve/ebe41f70d5b6dfa9166e2c581c45c9c0cfc57b66/model.bin "HTTP/1.1 302 Found"
+2026-05-14 12:48:15 [INFO] httpx: HTTP Request: HEAD https://huggingface.co/Systran/faster-whisper-base/resolve/ebe41f70d5b6dfa9166e2c581c45c9c0cfc57b66/vocabulary.txt "HTTP/1.1 307 Temporary Redirect"
+2026-05-14 12:48:15 [INFO] httpx: HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Systran/faster-whisper-base/ebe41f70d5b6dfa9166e2c581c45c9c0cfc57b66/tokenizer.json "HTTP/1.1 200 OK"
+2026-05-14 12:48:15 [INFO] httpx: HTTP Request: GET https://huggingface.co/api/resolve-cache/models/Systran/faster-whisper-base/ebe41f70d5b6dfa9166e2c581c45c9c0cfc57b66/config.json "HTTP/1.1 200 OK"
+2026-05-14 12:48:15 [INFO] httpx: HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Systran/faster-whisper-base/ebe41f70d5b6dfa9166e2c581c45c9c0cfc57b66/vocabulary.txt "HTTP/1.1 200 OK"
+2026-05-14 12:48:15 [INFO] httpx: HTTP Request: GET https://huggingface.co/api/resolve-cache/models/Systran/faster-whisper-base/ebe41f70d5b6dfa9166e2c581c45c9c0cfc57b66/tokenizer.json "HTTP/1.1 200 OK"
+2026-05-14 12:48:15 [INFO] httpx: HTTP Request: GET https://huggingface.co/api/resolve-cache/models/Systran/faster-whisper-base/ebe41f70d5b6dfa9166e2c581c45c9c0cfc57b66/vocabulary.txt "HTTP/1.1 200 OK"
+2026-05-14 12:48:16 [INFO] httpx: HTTP Request: GET https://huggingface.co/api/models/Systran/faster-whisper-base/xet-read-token/ebe41f70d5b6dfa9166e2c581c45c9c0cfc57b66 "HTTP/1.1 200 OK"
+2026-05-14 12:48:27 [INFO] jarvis.listener: Whisper model loaded.
+2026-05-14 12:48:27 [INFO] jarvis.intent: IntentEngine ready — 8 rules.
+2026-05-14 12:48:31 [INFO] jarvis.main: JARVIS ready | Ctrl+Space=listen | Ctrl+Shift+X=stop | Ctrl+C=quit
+2026-05-14 12:48:52 [WARNING] jarvis.main: Already processing. Ignoring trigger.
+2026-05-14 12:49:04 [WARNING] jarvis.main: Already processing. Ignoring trigger.
+2026-05-14 12:49:36 [WARNING] jarvis.main: EMERGENCY STOP triggered.
+2026-05-14 12:49:36 [WARNING] jarvis.safety: Emergency stop engaged.
+2026-05-14 12:49:36 [WARNING] jarvis.tts: TTS RuntimeError: run loop already started
+2026-05-14 12:50:07 [INFO] jarvis.main: Shutting down.
+2026-05-14 12:50:07 [WARNING] jarvis.tts: TTS RuntimeError: run loop already started

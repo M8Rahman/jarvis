@@ -1,0 +1,26 @@
+# JARVIS Phase 1 — Windows 11 only
+# Install: pip install -r requirements.txt
+
+# Speech-to-Text (offline, Banglish-capable)
+faster-whisper==1.0.3
+pyaudio==0.2.14
+
+# Text-to-Speech (offline, Windows SAPI5)
+pyttsx3==2.90
+
+# Keyboard / Mouse automation
+pyautogui==0.9.54
+keyboard==0.13.5
+pygetwindow==0.0.9
+pynput==1.7.6
+
+# Outlook COM automation (Windows only)
+pywin32==306
+
+# Config + YAML
+PyYAML==6.0.1
+
+# Audio processing
+numpy==1.26.4
+
+# SQLite is built into Python — no install needed for memory.py

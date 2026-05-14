@@ -1,0 +1,42 @@
+# ══════════════════════════════════════════════════════
+#  JARVIS Configuration  —  config/jarvis.yaml
+#  Edit this file for your setup. No code changes needed.
+# ══════════════════════════════════════════════════════
+
+# ── Voice / STT ───────────────────────────────────────
+# Options: tiny | base | small | medium
+# base  → recommended for 8 GB RAM
+# small → better Banglish accuracy, ~500 MB RAM
+whisper_model: base
+
+# ── TTS ───────────────────────────────────────────────
+tts_rate: 165          # words per minute (140-200 is natural)
+tts_volume: 0.9
+tts_voice_name: ""     # e.g. "zira" or "david" (partial match)
+
+# ── ERP Settings ──────────────────────────────────────
+erp_window_title: "ERP"
+erp_executable:   ""   # e.g. "C:/Apps/MyERP/erp.exe"
+
+# ── Automation Timing ─────────────────────────────────
+action_delay: 0.3
+confirmation_timeout: 8.0
+
+# ── Outlook Settings ──────────────────────────────────
+outlook_search_folder: "Inbox"   # Inbox only (Phase 1)
+outlook_max_search:    200       # max emails to scan per search
+outlook_launch_wait:   4.0       # seconds to wait after launching Outlook
+
+# ── Attachment Storage ────────────────────────────────
+# Where JARVIS saves PDF attachments extracted from emails.
+# Folder structure: {attachment_root}/{buyer}/{collection_code}/
+attachment_root: "E:/Projects/JARVIS/attachments"
+
+# ── Memory / History ──────────────────────────────────
+memory_db_path: "E:/Projects/JARVIS/memory/jarvis_memory.db"
+
+# ── Logging ───────────────────────────────────────────
+log_dir:   "E:/Projects/JARVIS/logs"
+log_level: "INFO"      # DEBUG | INFO | WARNING | ERROR
+log_max_bytes:   5242880   # 5 MB per log file
+log_backup_count: 3        # keep 3 rotated log files

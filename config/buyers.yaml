@@ -1,0 +1,62 @@
+# ══════════════════════════════════════════════════════════════════════
+#  JARVIS — Buyer Configuration
+#  File: config/buyers.yaml
+#
+#  HOW TO ADD A NEW BUYER:
+#  ─────────────────────────
+#  Copy the Cecil block below and fill in:
+#    name:         Internal key (no spaces)
+#    aliases:      How you say the name (voice variations)
+#    order_types:  Which order types this buyer uses
+#    subject_patterns: Fragments that appear in email subjects
+#    attachment_prefix: How PO filenames start
+#
+#  COLLECTION NUMBER ENCODING (applies to all collection-type buyers):
+#    Voice:  "collection 10.5"  or  "coll 10 point 5"
+#    Stored: "105"  (year prefix added at runtime → "2026105")
+#    Rule:   multiply decimal by 10, drop the dot
+#            10.5 → 105,  3.0 → 30,  11.0 → 110
+#
+#  ATTACHMENT SAVE PATH (set in jarvis.yaml):
+#    E:/Projects/JARVIS/attachments/{buyer_name}/{collection_code}/
+# ══════════════════════════════════════════════════════════════════════
+
+buyers:
+
+  # ── Cecil ──────────────────────────────────────────────────────────
+  - name: Cecil
+    aliases:
+      - cecil
+      - "সেসিল"
+      - "Cecil"
+    order_types:
+      - collection          # ← active for Phase 1
+      # - cw                # ← add later
+      # - qr                # ← add later
+      # - nos               # ← add later
+
+    collection:
+      # Fragments that MUST appear in email subject to match
+      subject_keywords:
+        - "Cecil"
+        - "coll"
+        - "collection"
+      # How attachment filenames are structured:
+      #   {collection_code}-{po_number}.pdf
+      #   e.g. 2026105-325978.pdf
+      attachment_pattern: "{collection_code}-{po_number}.pdf"
+      attachment_prefix: ""   # no fixed prefix for Cecil
+
+  # ── Add more buyers below following the same structure ─────────────
+  # - name: BuyerTwo
+  #   aliases:
+  #     - buyertwo
+  #     - "buyer two"
+  #   order_types:
+  #     - collection
+  #   collection:
+  #     subject_keywords:
+  #       - "BuyerTwo"
+  #       - "Order"
+  #     attachment_pattern: "{collection_code}-{po_number}.pdf"
+  #     attachment_prefix: ""
