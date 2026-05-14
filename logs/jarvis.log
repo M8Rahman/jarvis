@@ -27,3 +27,57 @@
 2026-05-14 12:49:36 [WARNING] jarvis.tts: TTS RuntimeError: run loop already started
 2026-05-14 12:50:07 [INFO] jarvis.main: Shutting down.
 2026-05-14 12:50:07 [WARNING] jarvis.tts: TTS RuntimeError: run loop already started
+2026-05-14 12:56:01 [INFO] jarvis.settings: Logging ready → E:/Projects/JARVIS/logs\jarvis.log  level=INFO
+2026-05-14 12:56:01 [INFO] jarvis.main: Initialising JARVIS modules…
+2026-05-14 12:56:01 [INFO] comtypes.client._code_cache: Imported existing <module 'comtypes.gen' from 'C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2026-05-14 12:56:01 [INFO] comtypes.client._code_cache: Using writeable comtypes cache directory: 'C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2026-05-14 12:56:01 [INFO] jarvis.tts: TTS engine ready.
+2026-05-14 12:56:01 [INFO] jarvis.listener: Loading Whisper model 'base' …
+2026-05-14 12:56:02 [INFO] httpx: HTTP Request: GET https://huggingface.co/api/models/Systran/faster-whisper-base/revision/main "HTTP/1.1 200 OK"
+2026-05-14 12:56:03 [INFO] jarvis.listener: Whisper model loaded.
+2026-05-14 12:56:03 [INFO] jarvis.intent: IntentEngine ready — 8 rules.
+2026-05-14 12:56:06 [INFO] jarvis.main: JARVIS ready | Ctrl+Space=listen | Ctrl+Shift+X=stop | Ctrl+C=quit
+2026-05-14 12:58:26 [INFO] jarvis.main: Shutting down.
+2026-05-14 12:58:26 [WARNING] jarvis.tts: TTS RuntimeError: run loop already started
+2026-05-14 13:00:38 [INFO] jarvis.settings: Logging ready → E:/Projects/JARVIS/logs\jarvis.log  level=INFO
+2026-05-14 13:00:38 [INFO] jarvis.main: Initialising JARVIS modules…
+2026-05-14 13:00:38 [INFO] comtypes.client._code_cache: Imported existing <module 'comtypes.gen' from 'C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2026-05-14 13:00:38 [INFO] comtypes.client._code_cache: Using writeable comtypes cache directory: 'C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2026-05-14 13:00:38 [INFO] jarvis.tts: TTS engine ready.
+2026-05-14 13:00:38 [INFO] jarvis.listener: Loading Whisper model 'base' …
+2026-05-14 13:00:39 [INFO] httpx: HTTP Request: GET https://huggingface.co/api/models/Systran/faster-whisper-base/revision/main "HTTP/1.1 200 OK"
+2026-05-14 13:00:39 [INFO] jarvis.listener: Whisper model loaded.
+2026-05-14 13:00:39 [INFO] jarvis.intent: IntentEngine ready — 8 rules.
+2026-05-14 13:00:43 [INFO] jarvis.main: JARVIS ready | Ctrl+Space=listen | Ctrl+Shift+X=stop | Ctrl+C=quit
+2026-05-14 13:00:56 [INFO] jarvis.main: Shutting down.
+2026-05-14 13:00:56 [WARNING] jarvis.tts: TTS RuntimeError: run loop already started
+2026-05-14 13:01:28 [INFO] jarvis.settings: Logging ready → E:/Projects/JARVIS/logs\jarvis.log  level=INFO
+2026-05-14 13:01:28 [INFO] jarvis.main: Initialising JARVIS modules…
+2026-05-14 13:01:28 [INFO] comtypes.client._code_cache: Imported existing <module 'comtypes.gen' from 'C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2026-05-14 13:01:28 [INFO] comtypes.client._code_cache: Using writeable comtypes cache directory: 'C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2026-05-14 13:01:28 [INFO] jarvis.tts: TTS engine ready.
+2026-05-14 13:01:28 [INFO] jarvis.listener: Loading Whisper model 'base' …
+2026-05-14 13:01:29 [INFO] httpx: HTTP Request: GET https://huggingface.co/api/models/Systran/faster-whisper-base/revision/main "HTTP/1.1 200 OK"
+2026-05-14 13:01:29 [INFO] jarvis.listener: Whisper model loaded.
+2026-05-14 13:01:29 [INFO] jarvis.intent: IntentEngine ready — 8 rules.
+2026-05-14 13:01:33 [INFO] jarvis.main: JARVIS ready | Ctrl+Space=listen | Ctrl+Shift+X=stop | Ctrl+C=quit
+2026-05-14 13:01:37 [WARNING] jarvis.main: Already processing. Ignoring trigger.
+2026-05-14 13:01:40 [WARNING] jarvis.main: Already processing. Ignoring trigger.
+2026-05-14 13:02:01 [INFO] jarvis.main: Shutting down.
+2026-05-14 13:02:01 [WARNING] jarvis.tts: TTS RuntimeError: run loop already started
+2026-05-14 13:33:41 [INFO] jarvis.settings: Logging ready → E:/Projects/JARVIS/logs\jarvis.log  level=INFO
+2026-05-14 13:33:41 [INFO] jarvis.main: Initialising JARVIS modules…
+2026-05-14 13:33:41 [INFO] comtypes.client._code_cache: Imported existing <module 'comtypes.gen' from 'C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2026-05-14 13:33:41 [INFO] comtypes.client._code_cache: Using writeable comtypes cache directory: 'C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2026-05-14 13:33:41 [INFO] jarvis.tts: TTS engine ready.
+2026-05-14 13:33:41 [INFO] jarvis.listener: Loading Whisper model 'base' …
+2026-05-14 13:33:42 [INFO] httpx: HTTP Request: GET https://huggingface.co/api/models/Systran/faster-whisper-base/revision/main "HTTP/1.1 200 OK"
+2026-05-14 13:33:43 [INFO] jarvis.listener: Whisper model loaded.
+2026-05-14 13:33:43 [INFO] jarvis.intent: IntentEngine ready — 8 rules.
+2026-05-14 13:33:48 [INFO] jarvis.main: JARVIS ready | Ctrl+Shift+Space=listen | Ctrl+Shift+X=stop | Ctrl+C=quit
+2026-05-14 13:34:09 [WARNING] jarvis.main: Already processing. Ignoring trigger.
+2026-05-14 13:34:17 [WARNING] jarvis.main: EMERGENCY STOP triggered.
+2026-05-14 13:34:17 [WARNING] jarvis.safety: Emergency stop engaged.
+2026-05-14 13:34:17 [WARNING] jarvis.tts: TTS RuntimeError: run loop already started
+2026-05-14 13:34:23 [INFO] jarvis.main: Shutting down.
+2026-05-14 13:34:23 [WARNING] jarvis.tts: TTS RuntimeError: run loop already started

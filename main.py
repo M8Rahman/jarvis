@@ -113,7 +113,7 @@ def main():
         ).start()
 
     keyboard.add_hotkey("ctrl+shift+x", emergency_stop)
-    keyboard.add_hotkey("ctrl+space",   on_trigger)
+    keyboard.add_hotkey("ctrl+shift+space",   on_trigger)
 
     def handle_sigint(sig, frame):
         log.info("Shutting down.")
@@ -122,8 +122,8 @@ def main():
 
     signal.signal(signal.SIGINT, handle_sigint)
 
-    speaker.say("JARVIS প্রস্তুত। Ctrl+Space চাপুন।")
-    log.info("JARVIS ready | Ctrl+Space=listen | Ctrl+Shift+X=stop | Ctrl+C=quit")
+    speaker.say("JARVIS প্রস্তুত। Ctrl+Shift+Space চাপুন।")
+    log.info("JARVIS ready | Ctrl+Shift+Space=listen | Ctrl+Shift+X=stop | Ctrl+C=quit")
     print("\n" + "═"*55)
     print("  JARVIS is running.")
     print("  Ctrl+Space       → give a command")
