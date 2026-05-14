@@ -95,7 +95,7 @@ class VoiceListener:
                 elif any(t in lower for t in NO_TOKENS):
                     confirmed[0] = False
 
-        kb_thread.join(timeout=5)
+        kb_thread.join(timeout=10)
 
         result = confirmed[0]
         if result is None:
@@ -149,7 +149,7 @@ class VoiceListener:
             audio_f32,
             language="en",      # English only — faster, no detection overhead
             beam_size=3,
-            vad_filter=True,
+            vad_filter=False,
         )
         text = " ".join(seg.text.strip() for seg in segments).strip()
         log.info("Transcribed: %s", text)

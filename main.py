@@ -3,7 +3,7 @@ JARVIS - Local AI Desktop Assistant
 Entry point.
 
 Hotkeys (configurable in jarvis.yaml → listen_hotkey / stop_hotkey):
-  Default listen : Ctrl+Shift+A   (safe in VS Code and most apps)
+  Default listen : Ctrl+alt  (safe in VS Code and most apps)
   Emergency stop : Ctrl+Shift+X
   Quit           : Ctrl+C in terminal
 
@@ -11,7 +11,7 @@ WHY Ctrl+Shift+A?
   - Ctrl+Space    → VS Code autocomplete (conflicts)
   - Alt+Space     → Windows system menu (conflicts)
   - Ctrl+Shift+J  → VS Code "Join Lines" (conflicts)
-  - Ctrl+Shift+A  → no default binding in VS Code or Windows ← chosen
+  - Ctrl+alt  → no default binding in VS Code or Windows ← chosen
 
 All responses are English only (Windows SAPI5 has no Bengali voice).
 """
@@ -58,6 +58,7 @@ def run_turn(state, speaker, listener, intent, executor):
     state.is_busy = True
     try:
         speaker.say("Listening.")
+        #time.sleep(0.5)
 
         text = listener.listen()
         if not text:
@@ -108,7 +109,7 @@ def run_turn(state, speaker, listener, intent, executor):
 # ── Main ──────────────────────────────────────────────────────────────────────
 def main():
     # Read hotkeys from config — easy to override in jarvis.yaml
-    listen_hotkey = settings.get("listen_hotkey", "ctrl+shift+a")
+    listen_hotkey = settings.get("listen_hotkey", "ctrl+alt")
     stop_hotkey   = settings.get("stop_hotkey",   "ctrl+shift+x")
 
     state, speaker, safety, listener, intent, executor = build_pipeline()
