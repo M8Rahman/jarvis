@@ -1,5 +1,5 @@
 # JARVIS — Project Context Document
-### Version: Phase 1.1  |  Last updated: 2025
+### Version: Phase 1.2  |  Last updated: 2026-05-14
 
 > **PURPOSE OF THIS FILE:**
 > Give this document to Claude at the start of any new conversation.
@@ -105,16 +105,13 @@ E:/Projects/JARVIS/          ← runtime data (logs, attachments, memory)
 
 | Key | Action |
 |-----|--------|
-| Ctrl+Shift+A | Start listening for a command (configurable in jarvis.yaml) |
+| Ctrl+Alt | Start listening for a command (configurable in jarvis.yaml) |
 | Ctrl+Shift+X | Emergency stop — halts all execution immediately |
 | Ctrl+C | Quit JARVIS |
 
 Hotkeys are configurable in jarvis.yaml:
-  listen_hotkey: "ctrl+shift+a"   ← change if needed
+  listen_hotkey: "ctrl+alt"
   stop_hotkey:   "ctrl+shift+x"
-
-WHY Ctrl+Shift+A: Does not conflict with VS Code, Windows system, or Outlook.
-Ctrl+Space (VS Code autocomplete) and Alt+Space (Windows system menu) both conflict.
 
 ---
 
@@ -176,38 +173,55 @@ Structure per buyer:
 
 ---
 
-## 9. WORKING COMMANDS (Phase 1.1)
+## 9. WORKING COMMANDS (Phase 1.2)
 
 ### Collection PO search (primary workflow)
 ```
 "Find Cecil collection 10.5"
-"Cecil collection 10.5 search করো"
-"Cecil coll 10.5 te PO 325978 খুঁজে দাও"
-"Search Cecil collection 10 point 5 PO 325978"
+"Cecil collection 10.5 search"
+"Find Cecil collection 10.5 PO 325978"
 ```
-**What JARVIS does:**
-1. Resolves "Cecil" → buyer config
-2. Encodes "10.5" → "105", builds "2026105"
-3. Opens Outlook (launches if not running)
-4. Searches Inbox (up to 200 emails) for subject containing Cecil + coll + 2026105
-5. Saves all PDF attachments to E:/Projects/JARVIS/attachments/Cecil/2026105/
-6. Speaks: sender, received date, list of PO numbers found
-7. Opens the email in Outlook
-8. If PO number specified → opens that specific PDF
 
 ### Other working commands
 ```
-"Open Outlook"          / "Outlook খুলো"
-"Google এ X search করো" / "Search X on Google"
-"Screenshot নাও"
-"Open ERP"              (stub — needs customisation)
-"PO entry করো"          (stub — needs customisation)
-"Cutting report খুলো"   (stub — needs customisation)
+"Open Outlook"
+"Search Google for [query]"
+"Take screenshot"
+"Open ERP"         (stub — needs customisation)
+"PO entry"         (stub — needs customisation)
+"Open cutting report"   (stub — needs customisation)
 ```
 
 ---
 
-## 10. MEMORY SYSTEM (SQLite)
+## 10. VOICE PIPELINE — HOW IT WORKS (Phase 1.2)
+
+```
+Hotkey pressed
+    → speaker.say_and_wait("Listening.")     [blocks until TTS done]
+    → PRE_RECORD_DELAY (0.4s)                [mic opens after speaker settles]
+    → _record()                              [captures audio + tracks speech_secs]
+    → Speech Gate check                      [< 0.5s speech? → discard silently]
+    → Whisper transcribe (vad_filter=True)   [skips silence internally]
+    → Hallucination filter                   ["thank you" etc → None]
+    → intent.parse(text)                     [rule-based matching]
+    → confirmation                           [say_and_wait + keyboard fallback]
+    → executor.run(action)
+```
+
+### Tunable constants in `core/listener.py`
+
+| Constant | Default | Meaning |
+|----------|---------|---------|
+| `SILENCE_DB` | 500 | Amplitude threshold. Raise if noisy mic. |
+| `MIN_SPEECH_DURATION` | 0.5s | Min real speech to pass gate. Raise to 0.8 if still false-triggering. |
+| `PRE_RECORD_DELAY` | 0.4s | Pause after TTS before mic opens. Raise if TTS still bleeds. |
+| `MAX_SILENCE` | 2.0s | Silence after speech → stop recording. |
+| `MAX_RECORD` | 10.0s | Hard cap on recording. |
+
+---
+
+## 11. MEMORY SYSTEM (SQLite)
 
 Database: `E:/Projects/JARVIS/memory/jarvis_memory.db`
 
@@ -239,7 +253,7 @@ Inspect with: **DB Browser for SQLite** (free tool)
 
 ---
 
-## 11. INTENT ENGINE — HOW TO ADD A NEW COMMAND
+## 12. INTENT ENGINE — HOW TO ADD A NEW COMMAND
 
 1. Add `IntentRule` to `INTENT_RULES` list in `core/intent.py`
 2. Add handler to `_build_handlers()` dict in `core/executor.py`
@@ -251,10 +265,10 @@ Inspect with: **DB Browser for SQLite** (free tool)
 
 ---
 
-## 12. PHASES — WHAT'S DONE AND WHAT'S NEXT
+## 13. PHASES — WHAT'S DONE AND WHAT'S NEXT
 
 ### Phase 1 (DONE) ✅
-- Voice hotkey trigger (Ctrl+Space)
+- Voice hotkey trigger
 - faster-whisper STT (offline, Banglish)
 - Rule-based intent engine
 - Human confirmation before action
@@ -265,23 +279,30 @@ Inspect with: **DB Browser for SQLite** (free tool)
 - pyttsx3 TTS
 
 ### Phase 1.1 (DONE) ✅
-- **English-only mode** — language="en" in Whisper (faster, no detection overhead)
-- All TTS responses converted to English (Windows SAPI5 has no Bengali voice)
-- TTS threading bug fixed — dedicated worker thread with queue (no more RuntimeError)
-- Hotkey changed to Ctrl+Shift+A (configurable) — no VS Code conflicts
-- Hotkeys configurable in jarvis.yaml (listen_hotkey / stop_hotkey)
-- Audit log path fixed to use configured log_dir
-- Centralised settings (jarvis.yaml + settings.py)
+- English-only mode (language="en" in Whisper)
+- All TTS responses converted to English
+- TTS threading bug fixed (dedicated worker thread with queue)
+- Hotkey configurable in jarvis.yaml
+- Audit log path fixed
+- Centralised settings
 - Buyer registry system (buyers.yaml)
 - Collection number encoding logic
 - Full Outlook collection PO search workflow
-- PDF attachment saving (structured folders)
-- Email display in Outlook
-- Specific PO PDF opening
-- SQLite memory (command_history + workflow_log)
-- Text normalisation for English + Banglish commands
+- PDF attachment saving
+- SQLite memory
+- Text normalisation
 - Rotating log files
-- Audit log for every action
+
+### Phase 1.2 (DONE) ✅
+- **Voice pipeline bug fixed**: assistant no longer immediately says "I cannot handle that command" after hotkey press
+- `say_and_wait()` used for "Listening." — mic opens only AFTER TTS finishes
+- `PRE_RECORD_DELAY` (0.4s) added to let speaker output settle before mic opens
+- **Speech gate**: minimum 0.5s of real speech required before sending to Whisper
+- `vad_filter=True` enabled in Whisper — internal silence removal
+- Hallucination filter for common Whisper noise artifacts ("thank you", etc.)
+- `import time` added to main.py (was missing, caused NameError)
+- Improved debug logging throughout listener and main pipeline
+- Empty transcript → "I didn't hear anything" (not "I cannot handle that command")
 
 ### Phase 2 (NEXT)
 - ERP keyboard workflow implementation (use record_workflow.py to capture)
@@ -298,7 +319,7 @@ Inspect with: **DB Browser for SQLite** (free tool)
 
 ---
 
-## 13. KNOWN LIMITATIONS / ISSUES
+## 14. KNOWN LIMITATIONS / ISSUES
 
 1. **English only:** Windows SAPI5 has no Bengali voice. All voice commands must be in English. All JARVIS responses are English. Bengali support can be added in Phase 3 with Coqui TTS when RAM >= 16 GB.
 
@@ -310,9 +331,11 @@ Inspect with: **DB Browser for SQLite** (free tool)
 
 5. **pyaudio install:** May fail on some systems. Use the pre-built wheel from https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyaudio
 
+6. **SILENCE_DB tuning:** The default threshold of 500 works for most quiet office environments. If your mic is very sensitive or you're in a noisy room, raise it to 700–1000 in `core/listener.py`. Similarly, if JARVIS misses quiet speech, lower it to 300.
+
 ---
 
-## 14. IMPORTANT CONFIG PATHS (jarvis.yaml)
+## 15. IMPORTANT CONFIG PATHS (jarvis.yaml)
 
 ```yaml
 attachment_root:  E:/Projects/JARVIS/attachments
@@ -325,9 +348,30 @@ whisper_model:    base           # ← change to "small" if RAM allows
 
 ---
 
-## 15. HOW TO CONTINUE THIS PROJECT IN A NEW CONVERSATION
+## 16. DEBUGGING THE VOICE PIPELINE
 
-1. Give Claude this entire document.
+Set `log_level: DEBUG` in `jarvis.yaml` to see the full trace:
+
+```
+[MAIN]     Hotkey triggered — starting listening turn.
+[MAIN]     TTS finished. Opening microphone now.
+[LISTENER] Pre-recording delay 0.4s (TTS bleed prevention)…
+[LISTENER] Microphone activated — waiting for speech…
+[LISTENER] Audio captured: 3.20 s total, 1.84 s speech
+[LISTENER] Speech gate passed (1.84s). Sending to Whisper…
+[LISTENER] Sending 3.20s of audio to Whisper…
+[LISTENER] Transcription result: 'Find Cecil collection 10.5'
+[MAIN]     Heard: 'Find Cecil collection 10.5'
+[MAIN]     Intent matched: find_collection_po | Params: {...}
+```
+
+If you see `Speech gate rejected`, the audio was too short/quiet — speak more clearly or longer, or lower `MIN_SPEECH_DURATION`.
+
+---
+
+## 17. HOW TO CONTINUE THIS PROJECT IN A NEW CONVERSATION
+
+1. Give Claude this entire document (CONTEXT.md).
 2. Share your GitHub repo link (or paste relevant file contents).
 3. State what you want to build next.
 4. Claude will read the code, understand the architecture, and continue incrementally.

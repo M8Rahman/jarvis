@@ -187,3 +187,91 @@ NameError: name 'time' is not defined. Did you forget to import 'time'
 2026-05-14 16:30:24 [INFO] jarvis.main: Heard: Listening
 2026-05-14 16:30:24 [WARNING] jarvis.intent: No intent matched: 'Listening'
 2026-05-14 16:30:32 [INFO] jarvis.main: Shutting down.
+2026-05-14 16:33:45 [INFO] jarvis.settings: Logging ready → E:/Projects/JARVIS/logs\jarvis.log  level=INFO
+2026-05-14 16:33:45 [INFO] jarvis.main: Initialising JARVIS modules…
+2026-05-14 16:33:45 [INFO] jarvis.tts: TTS engine ready (dedicated thread).
+2026-05-14 16:33:45 [INFO] jarvis.listener: Loading Whisper model 'base' (English only)…
+2026-05-14 16:33:45 [INFO] comtypes.client._code_cache: Imported existing <module 'comtypes.gen' from 'C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2026-05-14 16:33:45 [INFO] comtypes.client._code_cache: Using writeable comtypes cache directory: 'C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2026-05-14 16:33:46 [INFO] httpx: HTTP Request: GET https://huggingface.co/api/models/Systran/faster-whisper-base/revision/main "HTTP/1.1 200 OK"
+2026-05-14 16:33:46 [INFO] jarvis.listener: Whisper model loaded.
+2026-05-14 16:33:46 [INFO] jarvis.intent: IntentEngine ready — 8 rules.
+2026-05-14 16:33:46 [INFO] jarvis.main: JARVIS ready | listen=ctrl+alt | stop=ctrl+shift+x | quit=Ctrl+C
+2026-05-14 16:33:53 [INFO] faster_whisper: Processing audio with duration 00:02.112
+2026-05-14 16:33:54 [INFO] jarvis.listener: Transcribed: Listening.
+2026-05-14 16:33:54 [INFO] jarvis.main: Heard: Listening.
+2026-05-14 16:33:54 [WARNING] jarvis.intent: No intent matched: 'Listening.'
+2026-05-14 16:42:13 [INFO] jarvis.main: Shutting down.
+2026-05-14 16:42:20 [INFO] jarvis.settings: Logging ready → E:/Projects/JARVIS/logs\jarvis.log  level=INFO
+2026-05-14 16:42:20 [INFO] jarvis.main: Initialising JARVIS modules…
+2026-05-14 16:42:20 [INFO] jarvis.tts: TTS engine ready (dedicated thread).
+2026-05-14 16:42:20 [INFO] jarvis.listener: Loading Whisper model 'base' (English only)…
+2026-05-14 16:42:20 [INFO] comtypes.client._code_cache: Imported existing <module 'comtypes.gen' from 'C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2026-05-14 16:42:20 [INFO] comtypes.client._code_cache: Using writeable comtypes cache directory: 'C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2026-05-14 16:42:21 [INFO] httpx: HTTP Request: GET https://huggingface.co/api/models/Systran/faster-whisper-base/revision/main "HTTP/1.1 200 OK"
+2026-05-14 16:42:21 [INFO] jarvis.listener: Whisper model loaded.
+2026-05-14 16:42:21 [INFO] jarvis.intent: IntentEngine ready — 8 rules.
+2026-05-14 16:42:21 [INFO] jarvis.main: JARVIS ready | listen=ctrl+alt | stop=ctrl+shift+x | quit=Ctrl+C
+2026-05-14 16:42:31 [INFO] jarvis.listener: [LISTENER] Speech gate rejected: only 0.00s of speech detected (minimum 0.50s). Likely noise, TTS bleed, or mic click. Returning None — will NOT route to command handler.
+2026-05-14 16:42:31 [INFO] jarvis.main: [MAIN] No valid speech detected. Prompting retry.
+2026-05-14 16:42:43 [INFO] faster_whisper: Processing audio with duration 00:03.200
+2026-05-14 16:42:44 [INFO] faster_whisper: VAD filter removed 00:01.912 of audio
+2026-05-14 16:42:44 [INFO] jarvis.listener: [LISTENER] Transcription result: 'Open Outlook'
+2026-05-14 16:42:44 [INFO] jarvis.main: [MAIN] Heard: 'Open Outlook'
+2026-05-14 16:42:44 [INFO] jarvis.intent: Intent: open_outlook | params={}
+2026-05-14 16:42:44 [INFO] jarvis.main: [MAIN] Intent matched: open_outlook | Params: {}
+2026-05-14 16:42:51 [INFO] faster_whisper: Processing audio with duration 00:02.560
+2026-05-14 16:42:51 [INFO] faster_whisper: VAD filter removed 00:01.552 of audio
+2026-05-14 16:43:01 [INFO] jarvis.listener: [LISTENER] Confirmation result: True
+2026-05-14 16:43:01 [INFO] jarvis.main: [MAIN] Confirmed. Executing action: open_outlook
+2026-05-14 16:43:02 [INFO] jarvis.buyer_registry: BuyerRegistry loaded 1 buyer(s).
+2026-05-14 16:43:10 [INFO] jarvis.audit: open_outlook | OK | params={} | Outlook চালু হচ্ছে।
+2026-05-14 16:43:14 [INFO] jarvis.main: [MAIN] Ctrl+C received. Shutting down.
+2026-05-14 16:52:03 [INFO] jarvis.settings: Logging ready → E:/Projects/JARVIS/logs\jarvis.log  level=INFO
+2026-05-14 16:52:03 [INFO] jarvis.main: Initialising JARVIS modules…
+2026-05-14 16:52:03 [INFO] jarvis.tts: TTS engine ready (dedicated thread).
+2026-05-14 16:52:03 [INFO] jarvis.listener: Loading Whisper model 'base' (English only)…
+2026-05-14 16:52:03 [INFO] comtypes.client._code_cache: Imported existing <module 'comtypes.gen' from 'C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2026-05-14 16:52:03 [INFO] comtypes.client._code_cache: Using writeable comtypes cache directory: 'C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2026-05-14 16:52:04 [INFO] httpx: HTTP Request: GET https://huggingface.co/api/models/Systran/faster-whisper-base/revision/main "HTTP/1.1 200 OK"
+2026-05-14 16:52:05 [INFO] jarvis.listener: Whisper model loaded.
+2026-05-14 16:52:05 [INFO] jarvis.intent: IntentEngine ready — 8 rules.
+2026-05-14 16:52:05 [INFO] jarvis.main: JARVIS ready | listen=ctrl+alt | stop=ctrl+shift+x | quit=Ctrl+C
+2026-05-14 16:52:15 [INFO] jarvis.listener: [LISTENER] Speech gate rejected: only 0.13s of speech detected (minimum 0.50s). Likely noise, TTS bleed, or mic click. Returning None — will NOT route to command handler.
+2026-05-14 16:52:15 [INFO] jarvis.main: [MAIN] No valid speech detected. Prompting retry.
+2026-05-14 16:52:27 [INFO] jarvis.listener: [LISTENER] Speech gate rejected: only 0.26s of speech detected (minimum 0.50s). Likely noise, TTS bleed, or mic click. Returning None — will NOT route to command handler.
+2026-05-14 16:52:27 [INFO] jarvis.main: [MAIN] No valid speech detected. Prompting retry.
+2026-05-14 16:52:31 [INFO] jarvis.main: [MAIN] Ctrl+C received. Shutting down.
+2026-05-16 14:21:00 [INFO] jarvis.settings: Logging ready → E:/Projects/JARVIS/logs\jarvis.log  level=INFO
+2026-05-16 14:21:00 [INFO] jarvis.main: Initialising JARVIS modules…
+2026-05-16 14:21:00 [INFO] jarvis.tts: TTS engine ready (dedicated thread).
+2026-05-16 14:21:00 [INFO] jarvis.listener: Loading Whisper model 'base' (English only)…
+2026-05-16 14:21:00 [INFO] comtypes.client._code_cache: Imported existing <module 'comtypes.gen' from 'C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2026-05-16 14:21:00 [INFO] comtypes.client._code_cache: Using writeable comtypes cache directory: 'C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2026-05-16 14:21:02 [INFO] httpx: HTTP Request: GET https://huggingface.co/api/models/Systran/faster-whisper-base/revision/main "HTTP/1.1 200 OK"
+2026-05-16 14:21:03 [INFO] jarvis.listener: Whisper model loaded.
+2026-05-16 14:21:03 [INFO] jarvis.intent: IntentEngine ready — 8 rules.
+2026-05-16 14:21:03 [INFO] jarvis.main: JARVIS ready | listen=ctrl+alt | stop=ctrl+shift+x | quit=Ctrl+C
+2026-05-16 14:21:15 [INFO] faster_whisper: Processing audio with duration 00:03.904
+2026-05-16 14:21:15 [INFO] faster_whisper: VAD filter removed 00:02.104 of audio
+2026-05-16 14:21:16 [INFO] jarvis.listener: [LISTENER] Transcription result: 'Open Outlook'
+2026-05-16 14:21:16 [INFO] jarvis.main: [MAIN] Heard: 'Open Outlook'
+2026-05-16 14:21:16 [INFO] jarvis.intent: Intent: open_outlook | params={}
+2026-05-16 14:21:16 [INFO] jarvis.main: [MAIN] Intent matched: open_outlook | Params: {}
+2026-05-16 14:21:32 [INFO] jarvis.listener: [LISTENER] Confirmation timed out → treating as cancel.
+2026-05-16 14:21:32 [INFO] jarvis.listener: [LISTENER] Confirmation result: False
+2026-05-16 14:21:32 [INFO] jarvis.main: [MAIN] User cancelled action: open_outlook
+2026-05-16 14:21:42 [INFO] faster_whisper: Processing audio with duration 00:03.264
+2026-05-16 14:21:42 [INFO] faster_whisper: VAD filter removed 00:02.040 of audio
+2026-05-16 14:21:43 [INFO] jarvis.listener: [LISTENER] Transcription result: 'Open Outlook'
+2026-05-16 14:21:43 [INFO] jarvis.main: [MAIN] Heard: 'Open Outlook'
+2026-05-16 14:21:43 [INFO] jarvis.intent: Intent: open_outlook | params={}
+2026-05-16 14:21:43 [INFO] jarvis.main: [MAIN] Intent matched: open_outlook | Params: {}
+2026-05-16 14:21:51 [INFO] faster_whisper: Processing audio with duration 00:03.712
+2026-05-16 14:21:51 [INFO] faster_whisper: VAD filter removed 00:01.400 of audio
+2026-05-16 14:22:02 [INFO] jarvis.listener: [LISTENER] Confirmation result: True
+2026-05-16 14:22:02 [INFO] jarvis.main: [MAIN] Confirmed. Executing action: open_outlook
+2026-05-16 14:22:02 [INFO] jarvis.buyer_registry: BuyerRegistry loaded 1 buyer(s).
+2026-05-16 14:22:02 [INFO] jarvis.audit: open_outlook | OK | params={} | Outlook খোলা হয়েছে।
+2026-05-16 14:22:10 [INFO] jarvis.main: [MAIN] Ctrl+C received. Shutting down.
+2026-05-16 14:22:11 [INFO] jarvis.main: [MAIN] Ctrl+C received. Shutting down.
