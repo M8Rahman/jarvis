@@ -1,2 +1,12 @@
 2026-05-14 16:43:10,043 | open_outlook | OK | params={} | Outlook চালু হচ্ছে।
 2026-05-16 14:22:02,322 | open_outlook | OK | params={} | Outlook খোলা হয়েছে।
+2026-05-17 13:51:34,251 | google_search | OK | params={'query': 'for elon musk.'} | 'for elon musk.' Google-এ search করা হচ্ছে।
+2026-05-17 13:52:49,967 | take_screenshot | OK | params={} | Screenshot saved to E:/Projects/JARVIS/logs\screenshot_20260517_135249.png
+2026-05-17 13:54:06,195 | find_collection_po | FAIL | params={'coll_encoded': '100'} | Please say the buyer name with the command. Example: Find Cecil Collection 10.2
+2026-05-17 13:54:47,207 | find_collection_po | FAIL | params={'coll_encoded': '100'} | Please say the buyer name with the command. Example: Find Cecil Collection 10.2
+2026-05-17 13:55:25,684 | find_collection_po | FAIL | params={'coll_encoded': '100'} | Please say the buyer name with the command. Example: Find Cecil Collection 10.2
+2026-05-17 13:56:51,663 | find_collection_po | FAIL | params={'coll_encoded': '100'} | Please say the buyer name with the command. Example: Find Cecil Collection 10.2
+2026-05-17 13:58:44,777 | find_collection_po | FAIL | params={'coll_encoded': '100'} | Please say the buyer name with the command. Example: Find Cecil Collection 10.2
+2026-05-17 13:59:40,420 | find_collection_po | OK | params={'buyer': 'Cecil', 'coll_encoded': '100'} | Found email from nadim@pantexbd.com. Received 07 May 2026. No PO PDFs found in this email.
+2026-05-17 14:01:49,664 | find_collection_po | OK | params={'buyer': 'Cecil', 'coll_encoded': '100'} | Found email from nadim@pantexbd.com. Received 07 May 2026. No PO PDFs found in this email.
+2026-05-17 14:03:01,051 | google_search | OK | params={'query': 'find for kylie jenner.'} | 'find for kylie jenner.' Google-এ search করা হচ্ছে।

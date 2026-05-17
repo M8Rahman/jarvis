@@ -28,6 +28,10 @@ buyers:
     aliases:
       - cecil
       - "Cecil"
+      - C-cell
+      - C-seal
+      - ccl
+      - CSEAL
     order_types:
       - collection          # active for Phase 1
       # - cw                # add later

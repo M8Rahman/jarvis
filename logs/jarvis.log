@@ -275,3 +275,215 @@ NameError: name 'time' is not defined. Did you forget to import 'time'
 2026-05-16 14:22:02 [INFO] jarvis.audit: open_outlook | OK | params={} | Outlook খোলা হয়েছে।
 2026-05-16 14:22:10 [INFO] jarvis.main: [MAIN] Ctrl+C received. Shutting down.
 2026-05-16 14:22:11 [INFO] jarvis.main: [MAIN] Ctrl+C received. Shutting down.
+2026-05-17 13:50:58 [INFO] jarvis.settings: Logging ready → E:/Projects/JARVIS/logs\jarvis.log  level=INFO
+2026-05-17 13:50:58 [INFO] jarvis.main: Initialising JARVIS modules…
+2026-05-17 13:50:58 [INFO] jarvis.tts: TTS engine ready (dedicated thread).
+2026-05-17 13:50:58 [INFO] jarvis.listener: Loading Whisper model 'base' (English only)…
+2026-05-17 13:50:58 [INFO] comtypes.client._code_cache: Imported existing <module 'comtypes.gen' from 'C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2026-05-17 13:50:58 [INFO] comtypes.client._code_cache: Using writeable comtypes cache directory: 'C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2026-05-17 13:50:58 [INFO] comtypes.client._generate: Could not import comtypes.gen._C866CA3A_32F7_11D2_9602_00C04F8EE628_0_5_4: Typelib different than module
+2026-05-17 13:50:58 [INFO] comtypes.client._generate: # Generating comtypes.gen._C866CA3A_32F7_11D2_9602_00C04F8EE628_0_5_4
+2026-05-17 13:50:58 [INFO] comtypes.client._generate: # Generating comtypes.gen.SpeechLib
+2026-05-17 13:51:00 [INFO] httpx: HTTP Request: GET https://huggingface.co/api/models/Systran/faster-whisper-base/revision/main "HTTP/1.1 200 OK"
+2026-05-17 13:51:03 [INFO] jarvis.listener: Whisper model loaded.
+2026-05-17 13:51:03 [INFO] jarvis.intent: IntentEngine ready — 8 rules.
+2026-05-17 13:51:03 [INFO] jarvis.main: JARVIS ready | listen=ctrl+alt | stop=ctrl+shift+x | quit=Ctrl+C
+2026-05-17 13:51:15 [INFO] faster_whisper: Processing audio with duration 00:04.736
+2026-05-17 13:51:15 [INFO] faster_whisper: VAD filter removed 00:01.912 of audio
+2026-05-17 13:51:16 [INFO] jarvis.listener: [LISTENER] Transcription result: 'Google for Elon Musk.'
+2026-05-17 13:51:16 [INFO] jarvis.main: [MAIN] Heard: 'Google for Elon Musk.'
+2026-05-17 13:51:16 [INFO] jarvis.intent: Intent: google_search | params={'query': 'for elon musk.'}
+2026-05-17 13:51:16 [INFO] jarvis.main: [MAIN] Intent matched: google_search | Params: {'query': 'for elon musk.'}
+2026-05-17 13:51:23 [INFO] faster_whisper: Processing audio with duration 00:02.560
+2026-05-17 13:51:23 [INFO] faster_whisper: VAD filter removed 00:01.424 of audio
+2026-05-17 13:51:34 [INFO] jarvis.listener: [LISTENER] Confirmation result: True
+2026-05-17 13:51:34 [INFO] jarvis.main: [MAIN] Confirmed. Executing action: google_search
+2026-05-17 13:51:34 [INFO] jarvis.workflows.browser: Opening Google search: https://www.google.com/search?q=for+elon+musk.
+2026-05-17 13:51:34 [INFO] jarvis.audit: google_search | OK | params={'query': 'for elon musk.'} | 'for elon musk.' Google-এ search করা হচ্ছে।
+2026-05-17 13:52:03 [INFO] faster_whisper: Processing audio with duration 00:03.264
+2026-05-17 13:52:03 [INFO] faster_whisper: VAD filter removed 00:01.880 of audio
+2026-05-17 13:52:04 [INFO] jarvis.listener: [LISTENER] Transcription result: 'screen shot.'
+2026-05-17 13:52:04 [INFO] jarvis.main: [MAIN] Heard: 'screen shot.'
+2026-05-17 13:52:04 [INFO] jarvis.intent: Intent: take_screenshot | params={}
+2026-05-17 13:52:04 [INFO] jarvis.main: [MAIN] Intent matched: take_screenshot | Params: {}
+2026-05-17 13:52:20 [INFO] jarvis.listener: [LISTENER] Confirmation timed out → treating as cancel.
+2026-05-17 13:52:20 [INFO] jarvis.listener: [LISTENER] Confirmation result: False
+2026-05-17 13:52:20 [INFO] jarvis.main: [MAIN] User cancelled action: take_screenshot
+2026-05-17 13:52:29 [INFO] faster_whisper: Processing audio with duration 00:03.712
+2026-05-17 13:52:29 [INFO] faster_whisper: VAD filter removed 00:01.848 of audio
+2026-05-17 13:52:30 [INFO] jarvis.listener: [LISTENER] Transcription result: 'take a screenshot'
+2026-05-17 13:52:30 [INFO] jarvis.main: [MAIN] Heard: 'take a screenshot'
+2026-05-17 13:52:30 [INFO] jarvis.intent: Intent: take_screenshot | params={}
+2026-05-17 13:52:30 [INFO] jarvis.main: [MAIN] Intent matched: take_screenshot | Params: {}
+2026-05-17 13:52:39 [INFO] faster_whisper: Processing audio with duration 00:03.904
+2026-05-17 13:52:39 [INFO] faster_whisper: VAD filter removed 00:02.640 of audio
+2026-05-17 13:52:49 [INFO] jarvis.listener: [LISTENER] Confirmation result: True
+2026-05-17 13:52:49 [INFO] jarvis.main: [MAIN] Confirmed. Executing action: take_screenshot
+2026-05-17 13:52:49 [INFO] jarvis.executor: Screenshot saved: E:/Projects/JARVIS/logs\screenshot_20260517_135249.png
+2026-05-17 13:52:49 [INFO] jarvis.audit: take_screenshot | OK | params={} | Screenshot saved to E:/Projects/JARVIS/logs\screenshot_20260517_135249.png
+2026-05-17 13:53:45 [INFO] faster_whisper: Processing audio with duration 00:08.768
+2026-05-17 13:53:45 [INFO] faster_whisper: VAD filter removed 00:03.704 of audio
+2026-05-17 13:53:46 [INFO] jarvis.listener: [LISTENER] Transcription result: 'Find C-seal collection 10.2'
+2026-05-17 13:53:46 [INFO] jarvis.main: [MAIN] Heard: 'Find C-seal collection 10.2'
+2026-05-17 13:53:46 [INFO] jarvis.buyer_registry: BuyerRegistry loaded 1 buyer(s).
+2026-05-17 13:53:46 [INFO] jarvis.intent: Intent: find_collection_po | params={'coll_encoded': '100'}
+2026-05-17 13:53:46 [INFO] jarvis.main: [MAIN] Intent matched: find_collection_po | Params: {'coll_encoded': '100'}
+2026-05-17 13:53:55 [INFO] faster_whisper: Processing audio with duration 00:03.072
+2026-05-17 13:53:55 [INFO] faster_whisper: VAD filter removed 00:01.648 of audio
+2026-05-17 13:54:06 [INFO] jarvis.listener: [LISTENER] Confirmation result: True
+2026-05-17 13:54:06 [INFO] jarvis.main: [MAIN] Confirmed. Executing action: find_collection_po
+2026-05-17 13:54:06 [INFO] jarvis.audit: find_collection_po | FAIL | params={'coll_encoded': '100'} | Please say the buyer name with the command. Example: Find Cecil Collection 10.2
+2026-05-17 13:54:06 [ERROR] jarvis.main: [MAIN] Execution failed: Please say the buyer name with the command. Example: Find Cecil Collection 10.2
+2026-05-17 13:54:27 [INFO] faster_whisper: Processing audio with duration 00:04.928
+2026-05-17 13:54:27 [INFO] faster_whisper: VAD filter removed 00:01.784 of audio
+2026-05-17 13:54:28 [INFO] jarvis.listener: [LISTENER] Transcription result: 'Find C-cell collection 10.2'
+2026-05-17 13:54:28 [INFO] jarvis.main: [MAIN] Heard: 'Find C-cell collection 10.2'
+2026-05-17 13:54:28 [INFO] jarvis.intent: Intent: find_collection_po | params={'coll_encoded': '100'}
+2026-05-17 13:54:28 [INFO] jarvis.main: [MAIN] Intent matched: find_collection_po | Params: {'coll_encoded': '100'}
+2026-05-17 13:54:36 [INFO] faster_whisper: Processing audio with duration 00:02.560
+2026-05-17 13:54:36 [INFO] faster_whisper: VAD filter removed 00:01.560 of audio
+2026-05-17 13:54:47 [INFO] jarvis.listener: [LISTENER] Confirmation result: True
+2026-05-17 13:54:47 [INFO] jarvis.main: [MAIN] Confirmed. Executing action: find_collection_po
+2026-05-17 13:54:47 [INFO] jarvis.audit: find_collection_po | FAIL | params={'coll_encoded': '100'} | Please say the buyer name with the command. Example: Find Cecil Collection 10.2
+2026-05-17 13:54:47 [ERROR] jarvis.main: [MAIN] Execution failed: Please say the buyer name with the command. Example: Find Cecil Collection 10.2
+2026-05-17 13:55:05 [INFO] faster_whisper: Processing audio with duration 00:04.736
+2026-05-17 13:55:05 [INFO] faster_whisper: VAD filter removed 00:01.848 of audio
+2026-05-17 13:55:05 [INFO] jarvis.listener: [LISTENER] Transcription result: 'So, collection 10.2.'
+2026-05-17 13:55:05 [INFO] jarvis.main: [MAIN] Heard: 'So, collection 10.2.'
+2026-05-17 13:55:05 [INFO] jarvis.intent: Intent: find_collection_po | params={'coll_encoded': '100'}
+2026-05-17 13:55:05 [INFO] jarvis.main: [MAIN] Intent matched: find_collection_po | Params: {'coll_encoded': '100'}
+2026-05-17 13:55:14 [INFO] faster_whisper: Processing audio with duration 00:03.456
+2026-05-17 13:55:14 [INFO] faster_whisper: VAD filter removed 00:02.160 of audio
+2026-05-17 13:55:25 [INFO] jarvis.listener: [LISTENER] Confirmation result: True
+2026-05-17 13:55:25 [INFO] jarvis.main: [MAIN] Confirmed. Executing action: find_collection_po
+2026-05-17 13:55:25 [INFO] jarvis.audit: find_collection_po | FAIL | params={'coll_encoded': '100'} | Please say the buyer name with the command. Example: Find Cecil Collection 10.2
+2026-05-17 13:55:25 [ERROR] jarvis.main: [MAIN] Execution failed: Please say the buyer name with the command. Example: Find Cecil Collection 10.2
+2026-05-17 13:56:18 [INFO] jarvis.main: [MAIN] Ctrl+C received. Shutting down.
+2026-05-17 13:56:24 [INFO] jarvis.settings: Logging ready → E:/Projects/JARVIS/logs\jarvis.log  level=INFO
+2026-05-17 13:56:24 [INFO] jarvis.main: Initialising JARVIS modules…
+2026-05-17 13:56:24 [INFO] jarvis.tts: TTS engine ready (dedicated thread).
+2026-05-17 13:56:24 [INFO] jarvis.listener: Loading Whisper model 'base' (English only)…
+2026-05-17 13:56:25 [INFO] comtypes.client._code_cache: Imported existing <module 'comtypes.gen' from 'C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2026-05-17 13:56:25 [INFO] comtypes.client._code_cache: Using writeable comtypes cache directory: 'C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2026-05-17 13:56:25 [INFO] httpx: HTTP Request: GET https://huggingface.co/api/models/Systran/faster-whisper-base/revision/main "HTTP/1.1 200 OK"
+2026-05-17 13:56:26 [INFO] jarvis.listener: Whisper model loaded.
+2026-05-17 13:56:26 [INFO] jarvis.intent: IntentEngine ready — 8 rules.
+2026-05-17 13:56:26 [INFO] jarvis.main: JARVIS ready | listen=ctrl+alt | stop=ctrl+shift+x | quit=Ctrl+C
+2026-05-17 13:56:39 [INFO] faster_whisper: Processing audio with duration 00:05.696
+2026-05-17 13:56:39 [INFO] faster_whisper: VAD filter removed 00:02.096 of audio
+2026-05-17 13:56:40 [INFO] jarvis.listener: [LISTENER] Transcription result: 'ccl collection 10.2'
+2026-05-17 13:56:40 [INFO] jarvis.main: [MAIN] Heard: 'ccl collection 10.2'
+2026-05-17 13:56:40 [INFO] jarvis.buyer_registry: BuyerRegistry loaded 1 buyer(s).
+2026-05-17 13:56:40 [INFO] jarvis.intent: Intent: find_collection_po | params={'coll_encoded': '100'}
+2026-05-17 13:56:40 [INFO] jarvis.main: [MAIN] Intent matched: find_collection_po | Params: {'coll_encoded': '100'}
+2026-05-17 13:56:48 [INFO] faster_whisper: Processing audio with duration 00:02.176
+2026-05-17 13:56:48 [INFO] faster_whisper: VAD filter removed 00:01.464 of audio
+2026-05-17 13:56:51 [INFO] jarvis.listener: [LISTENER] Confirmation result: True
+2026-05-17 13:56:51 [INFO] jarvis.main: [MAIN] Confirmed. Executing action: find_collection_po
+2026-05-17 13:56:51 [INFO] jarvis.audit: find_collection_po | FAIL | params={'coll_encoded': '100'} | Please say the buyer name with the command. Example: Find Cecil Collection 10.2
+2026-05-17 13:56:51 [ERROR] jarvis.main: [MAIN] Execution failed: Please say the buyer name with the command. Example: Find Cecil Collection 10.2
+2026-05-17 13:57:08 [INFO] faster_whisper: Processing audio with duration 00:04.544
+2026-05-17 13:57:08 [INFO] faster_whisper: VAD filter removed 00:01.848 of audio
+2026-05-17 13:57:09 [INFO] jarvis.listener: [LISTENER] Transcription result: 'ESO collection 10.2'
+2026-05-17 13:57:09 [INFO] jarvis.main: [MAIN] Heard: 'ESO collection 10.2'
+2026-05-17 13:57:09 [INFO] jarvis.intent: Intent: find_collection_po | params={'coll_encoded': '100'}
+2026-05-17 13:57:09 [INFO] jarvis.main: [MAIN] Intent matched: find_collection_po | Params: {'coll_encoded': '100'}
+2026-05-17 13:57:19 [INFO] jarvis.listener: [LISTENER] Confirmation result: False
+2026-05-17 13:57:19 [INFO] jarvis.main: [MAIN] User cancelled action: find_collection_po
+2026-05-17 13:57:32 [INFO] faster_whisper: Processing audio with duration 00:05.056
+2026-05-17 13:57:32 [INFO] faster_whisper: VAD filter removed 00:01.912 of audio
+2026-05-17 13:57:33 [INFO] jarvis.listener: [LISTENER] Transcription result: 'CSEAL collection 10.2'
+2026-05-17 13:57:33 [INFO] jarvis.main: [MAIN] Heard: 'CSEAL collection 10.2'
+2026-05-17 13:57:33 [INFO] jarvis.intent: Intent: find_collection_po | params={'coll_encoded': '100'}
+2026-05-17 13:57:33 [INFO] jarvis.main: [MAIN] Intent matched: find_collection_po | Params: {'coll_encoded': '100'}
+2026-05-17 13:57:41 [INFO] faster_whisper: Processing audio with duration 00:02.240
+2026-05-17 13:57:41 [INFO] faster_whisper: VAD filter removed 00:02.240 of audio
+2026-05-17 13:57:47 [INFO] jarvis.listener: [LISTENER] Confirmation result: False
+2026-05-17 13:57:47 [INFO] jarvis.main: [MAIN] User cancelled action: find_collection_po
+2026-05-17 13:58:24 [INFO] faster_whisper: Processing audio with duration 00:07.424
+2026-05-17 13:58:24 [INFO] faster_whisper: VAD filter removed 00:02.592 of audio
+2026-05-17 13:58:26 [INFO] jarvis.listener: [LISTENER] Transcription result: 'CSEAL collection 10.2'
+2026-05-17 13:58:26 [INFO] jarvis.main: [MAIN] Heard: 'CSEAL collection 10.2'
+2026-05-17 13:58:26 [INFO] jarvis.intent: Intent: find_collection_po | params={'coll_encoded': '100'}
+2026-05-17 13:58:26 [INFO] jarvis.main: [MAIN] Intent matched: find_collection_po | Params: {'coll_encoded': '100'}
+2026-05-17 13:58:33 [INFO] faster_whisper: Processing audio with duration 00:02.432
+2026-05-17 13:58:33 [INFO] faster_whisper: VAD filter removed 00:01.464 of audio
+2026-05-17 13:58:44 [INFO] jarvis.listener: [LISTENER] Confirmation result: True
+2026-05-17 13:58:44 [INFO] jarvis.main: [MAIN] Confirmed. Executing action: find_collection_po
+2026-05-17 13:58:44 [INFO] jarvis.audit: find_collection_po | FAIL | params={'coll_encoded': '100'} | Please say the buyer name with the command. Example: Find Cecil Collection 10.2
+2026-05-17 13:58:44 [ERROR] jarvis.main: [MAIN] Execution failed: Please say the buyer name with the command. Example: Find Cecil Collection 10.2
+2026-05-17 13:58:52 [INFO] jarvis.main: [MAIN] Ctrl+C received. Shutting down.
+2026-05-17 13:58:59 [INFO] jarvis.settings: Logging ready → E:/Projects/JARVIS/logs\jarvis.log  level=INFO
+2026-05-17 13:58:59 [INFO] jarvis.main: Initialising JARVIS modules…
+2026-05-17 13:58:59 [INFO] jarvis.tts: TTS engine ready (dedicated thread).
+2026-05-17 13:58:59 [INFO] jarvis.listener: Loading Whisper model 'base' (English only)…
+2026-05-17 13:59:00 [INFO] comtypes.client._code_cache: Imported existing <module 'comtypes.gen' from 'C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2026-05-17 13:59:00 [INFO] comtypes.client._code_cache: Using writeable comtypes cache directory: 'C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2026-05-17 13:59:00 [INFO] httpx: HTTP Request: GET https://huggingface.co/api/models/Systran/faster-whisper-base/revision/main "HTTP/1.1 200 OK"
+2026-05-17 13:59:01 [INFO] jarvis.listener: Whisper model loaded.
+2026-05-17 13:59:01 [INFO] jarvis.intent: IntentEngine ready — 8 rules.
+2026-05-17 13:59:01 [INFO] jarvis.main: JARVIS ready | listen=ctrl+alt | stop=ctrl+shift+x | quit=Ctrl+C
+2026-05-17 13:59:15 [INFO] faster_whisper: Processing audio with duration 00:06.720
+2026-05-17 13:59:15 [INFO] faster_whisper: VAD filter removed 00:02.008 of audio
+2026-05-17 13:59:16 [INFO] jarvis.listener: [LISTENER] Transcription result: 'Find CCL collection 10.2'
+2026-05-17 13:59:16 [INFO] jarvis.main: [MAIN] Heard: 'Find CCL collection 10.2'
+2026-05-17 13:59:16 [INFO] jarvis.buyer_registry: BuyerRegistry loaded 1 buyer(s).
+2026-05-17 13:59:16 [INFO] jarvis.intent: Intent: find_collection_po | params={'buyer': 'Cecil', 'coll_encoded': '100'}
+2026-05-17 13:59:16 [INFO] jarvis.main: [MAIN] Intent matched: find_collection_po | Params: {'buyer': 'Cecil', 'coll_encoded': '100'}
+2026-05-17 13:59:25 [INFO] faster_whisper: Processing audio with duration 00:03.968
+2026-05-17 13:59:25 [INFO] faster_whisper: VAD filter removed 00:02.736 of audio
+2026-05-17 13:59:36 [INFO] jarvis.listener: [LISTENER] Confirmation result: True
+2026-05-17 13:59:36 [INFO] jarvis.main: [MAIN] Confirmed. Executing action: find_collection_po
+2026-05-17 13:59:36 [INFO] jarvis.workflows.outlook: Collection search: buyer=Cecil  code=2026100  po=any
+2026-05-17 13:59:38 [INFO] jarvis.workflows.outlook: Best match [score=115] after scanning 200 emails: 'FW: NOS of coll 2026100'
+2026-05-17 13:59:38 [INFO] jarvis.workflows.outlook: Saved attachment: E:/Projects/JARVIS/attachments\Cecil\2026100\319928.pdf
+2026-05-17 13:59:38 [INFO] jarvis.workflows.outlook: Saved attachment: E:/Projects/JARVIS/attachments\Cecil\2026100\325886.pdf
+2026-05-17 13:59:38 [INFO] jarvis.workflows.outlook: Saved attachment: E:/Projects/JARVIS/attachments\Cecil\2026100\325903.pdf
+2026-05-17 13:59:38 [INFO] jarvis.workflows.outlook: Saved attachment: E:/Projects/JARVIS/attachments\Cecil\2026100\326025.pdf
+2026-05-17 13:59:38 [INFO] jarvis.workflows.outlook: Saved attachment: E:/Projects/JARVIS/attachments\Cecil\2026100\326042.pdf
+2026-05-17 13:59:38 [INFO] jarvis.workflows.outlook: Saved attachment: E:/Projects/JARVIS/attachments\Cecil\2026100\326054.pdf
+2026-05-17 13:59:38 [INFO] jarvis.workflows.outlook: Saved attachment: E:/Projects/JARVIS/attachments\Cecil\2026100\326069.pdf
+2026-05-17 13:59:38 [INFO] jarvis.workflows.outlook: Saved 7 PDF(s) | POs: []
+2026-05-17 13:59:40 [INFO] jarvis.audit: find_collection_po | OK | params={'buyer': 'Cecil', 'coll_encoded': '100'} | Found email from nadim@pantexbd.com. Received 07 May 2026. No PO PDFs found in this email.
+2026-05-17 14:00:44 [INFO] faster_whisper: Processing audio with duration 00:03.328
+2026-05-17 14:00:44 [INFO] faster_whisper: VAD filter removed 00:02.104 of audio
+2026-05-17 14:00:45 [INFO] jarvis.listener: [LISTENER] Transcription result: 'Open Outlook'
+2026-05-17 14:00:45 [INFO] jarvis.main: [MAIN] Heard: 'Open Outlook'
+2026-05-17 14:00:45 [WARNING] jarvis.intent: No intent matched: 'Open Outlook'
+2026-05-17 14:00:45 [WARNING] jarvis.main: [MAIN] No intent matched for: 'Open Outlook'
+2026-05-17 14:00:59 [INFO] faster_whisper: Processing audio with duration 00:03.328
+2026-05-17 14:00:59 [INFO] faster_whisper: VAD filter removed 00:01.656 of audio
+2026-05-17 14:01:00 [INFO] jarvis.listener: [LISTENER] Transcription result: 'for Elon Musk.'
+2026-05-17 14:01:00 [INFO] jarvis.main: [MAIN] Heard: 'for Elon Musk.'
+2026-05-17 14:01:00 [WARNING] jarvis.intent: No intent matched: 'for Elon Musk.'
+2026-05-17 14:01:00 [WARNING] jarvis.main: [MAIN] No intent matched for: 'for Elon Musk.'
+2026-05-17 14:01:33 [INFO] faster_whisper: Processing audio with duration 00:05.760
+2026-05-17 14:01:33 [INFO] faster_whisper: VAD filter removed 00:02.224 of audio
+2026-05-17 14:01:34 [INFO] jarvis.listener: [LISTENER] Transcription result: 'Open C-Seal Collection 10.2.'
+2026-05-17 14:01:34 [INFO] jarvis.main: [MAIN] Heard: 'Open C-Seal Collection 10.2.'
+2026-05-17 14:01:34 [INFO] jarvis.intent: Intent: find_collection_po | params={'buyer': 'Cecil', 'coll_encoded': '100'}
+2026-05-17 14:01:34 [INFO] jarvis.main: [MAIN] Intent matched: find_collection_po | Params: {'buyer': 'Cecil', 'coll_encoded': '100'}
+2026-05-17 14:01:48 [INFO] jarvis.listener: [LISTENER] Confirmation result: True
+2026-05-17 14:01:48 [INFO] jarvis.main: [MAIN] Confirmed. Executing action: find_collection_po
+2026-05-17 14:01:48 [INFO] jarvis.workflows.outlook: Collection search: buyer=Cecil  code=2026100  po=any
+2026-05-17 14:01:49 [INFO] jarvis.workflows.outlook: Best match [score=115] after scanning 200 emails: 'FW: NOS of coll 2026100'
+2026-05-17 14:01:49 [INFO] jarvis.workflows.outlook: Saved attachment: E:/Projects/JARVIS/attachments\Cecil\2026100\319928.pdf
+2026-05-17 14:01:49 [INFO] jarvis.workflows.outlook: Saved attachment: E:/Projects/JARVIS/attachments\Cecil\2026100\325886.pdf
+2026-05-17 14:01:49 [INFO] jarvis.workflows.outlook: Saved attachment: E:/Projects/JARVIS/attachments\Cecil\2026100\325903.pdf
+2026-05-17 14:01:49 [INFO] jarvis.workflows.outlook: Saved attachment: E:/Projects/JARVIS/attachments\Cecil\2026100\326025.pdf
+2026-05-17 14:01:49 [INFO] jarvis.workflows.outlook: Saved attachment: E:/Projects/JARVIS/attachments\Cecil\2026100\326042.pdf
+2026-05-17 14:01:49 [INFO] jarvis.workflows.outlook: Saved attachment: E:/Projects/JARVIS/attachments\Cecil\2026100\326054.pdf
+2026-05-17 14:01:49 [INFO] jarvis.workflows.outlook: Saved attachment: E:/Projects/JARVIS/attachments\Cecil\2026100\326069.pdf
+2026-05-17 14:01:49 [INFO] jarvis.workflows.outlook: Saved 7 PDF(s) | POs: []
+2026-05-17 14:01:49 [INFO] jarvis.audit: find_collection_po | OK | params={'buyer': 'Cecil', 'coll_encoded': '100'} | Found email from nadim@pantexbd.com. Received 07 May 2026. No PO PDFs found in this email.
+2026-05-17 14:02:53 [INFO] faster_whisper: Processing audio with duration 00:04.864
+2026-05-17 14:02:53 [INFO] faster_whisper: VAD filter removed 00:01.880 of audio
+2026-05-17 14:02:54 [INFO] jarvis.listener: [LISTENER] Transcription result: 'Google search for Kylie Jenner.'
+2026-05-17 14:02:54 [INFO] jarvis.main: [MAIN] Heard: 'Google search for Kylie Jenner.'
+2026-05-17 14:02:54 [INFO] jarvis.intent: Intent: google_search | params={'query': 'find for kylie jenner.'}
+2026-05-17 14:02:54 [INFO] jarvis.main: [MAIN] Intent matched: google_search | Params: {'query': 'find for kylie jenner.'}
+2026-05-17 14:03:00 [INFO] jarvis.listener: [LISTENER] Confirmation result: True
+2026-05-17 14:03:00 [INFO] jarvis.main: [MAIN] Confirmed. Executing action: google_search
+2026-05-17 14:03:00 [INFO] jarvis.workflows.browser: Opening Google search: https://www.google.com/search?q=find+for+kylie+jenner.
+2026-05-17 14:03:01 [INFO] jarvis.audit: google_search | OK | params={'query': 'find for kylie jenner.'} | 'find for kylie jenner.' Google-এ search করা হচ্ছে।
+2026-05-17 14:03:49 [INFO] jarvis.main: [MAIN] Ctrl+C received. Shutting down.
