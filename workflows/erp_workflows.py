@@ -3,6 +3,9 @@ workflows/erp_workflows.py
 ──────────────────────────
 All ERP automation workflows live here.
 
+Phase 1.3 changes:
+  - All Bangla text removed. English only.
+
 HOW TO CUSTOMIZE FOR YOUR ERP:
 ──────────────────────────────
 1. Set `erp_window_title` in config/jarvis.yaml to match your ERP's title bar.
@@ -10,10 +13,10 @@ HOW TO CUSTOMIZE FOR YOUR ERP:
 3. Replace the placeholder steps below with your real navigation sequence.
 
 STRATEGY — Why this is stable even when UI changes slightly:
-  • Use keyboard shortcuts instead of mouse clicks wherever possible.
-  • Use window titles (text) not pixel coordinates.
-  • Use Tab/Enter navigation for forms — these rarely change.
-  • Only use pyautogui.click(x, y) as last resort; prefer hotkeys.
+  - Use keyboard shortcuts instead of mouse clicks wherever possible.
+  - Use window titles (text) not pixel coordinates.
+  - Use Tab/Enter navigation for forms — these rarely change.
+  - Only use pyautogui.click(x, y) as last resort; prefer hotkeys.
 
 DEBUGGING A WORKFLOW:
   Run `python tools/record_workflow.py` to watch + log what you do manually.
@@ -68,7 +71,7 @@ def launch_erp() -> ExecutionResult:
         return FAIL(f"ERP executable not found: {exe}")
     subprocess.Popen([exe])
     _wait(3)
-    return OK("ERP চালু হচ্ছে।")
+    return OK("ERP is starting.")
 
 
 def open_po_entry_form() -> ExecutionResult:
@@ -91,9 +94,9 @@ def open_po_entry_form() -> ExecutionResult:
     ────────────────────────────────────────────────────────────────────────
     """
     if not _focus_erp():
-        return FAIL("ERP উইন্ডো পাওয়া যায়নি।")
+        return FAIL("ERP window not found.")
 
-    log.info("Navigating to PO Entry form…")
+    log.info("Navigating to PO Entry form...")
 
     # ── REPLACE BELOW WITH YOUR REAL ERP NAVIGATION ──────────────────────
     # PLACEHOLDER — customize for your ERP:
@@ -103,9 +106,8 @@ def open_po_entry_form() -> ExecutionResult:
     # pyautogui.press("enter")
     # ─────────────────────────────────────────────────────────────────────
 
-    # For now, just focus the ERP and log — won't break anything
     log.warning("PO Entry workflow not yet customized. Edit erp_workflows.py.")
-    return OK("ERP focused. PO Entry workflow needs customization.")
+    return OK("ERP focused. PO Entry workflow needs customization — see erp_workflows.py.")
 
 
 def open_cutting_report(date: str = "today") -> ExecutionResult:
@@ -119,23 +121,11 @@ def open_cutting_report(date: str = "today") -> ExecutionResult:
     ────────────────────────────────────────────────────────────────────────
     """
     if not _focus_erp():
-        return FAIL("ERP উইন্ডো পাওয়া যায়নি।")
+        return FAIL("ERP window not found.")
 
-    log.info("Opening Cutting Report for date: %s", date)
+    log.info("Opening Cutting Report for: %s", date)
 
     # ── REPLACE BELOW WITH YOUR REAL ERP NAVIGATION ──────────────────────
-    # Example flow:
-    # pyautogui.hotkey("alt", "r")       # Reports menu
-    # _wait(0.4)
-    # pyautogui.typewrite("cutting", interval=0.05)
-    # pyautogui.press("enter")
-    # _wait(0.6)
-    # if date == "yesterday":
-    #     # Set date to yesterday in date picker
-    #     pyautogui.hotkey("ctrl", "shift", "y")  # hypothetical shortcut
-    # pyautogui.press("f5")              # Refresh / Generate
-    # ─────────────────────────────────────────────────────────────────────
-
     log.warning("Cutting Report workflow not yet customized. Edit erp_workflows.py.")
     return OK(f"ERP focused. Cutting Report ({date}) workflow needs customization.")
 
@@ -148,9 +138,9 @@ def open_production_report(date: str = "today") -> ExecutionResult:
     ────────────────────────────────────────────────────────────────────────
     """
     if not _focus_erp():
-        return FAIL("ERP উইন্ডো পাওয়া যায়নি।")
+        return FAIL("ERP window not found.")
 
-    log.info("Opening Production Report for date: %s", date)
+    log.info("Opening Production Report for: %s", date)
 
     # ── REPLACE BELOW WITH YOUR REAL ERP NAVIGATION ──────────────────────
     log.warning("Production Report workflow not yet customized. Edit erp_workflows.py.")

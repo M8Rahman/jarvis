@@ -1,15 +1,18 @@
 """
 core/intent.py
 ──────────────
-Converts raw transcribed text (English / Bangla / Banglish) into an Action.
+Converts raw transcribed text (English) into an Action.
 
-IMPROVEMENTS over Phase 1:
-  - Full English command support ("Open Outlook", "Find Cecil collection 10.5")
-  - Text normalisation before matching (removes filler, strips punctuation)
-  - Buyer-aware extraction (reads buyer registry for live alias list)
-  - Collection number extraction with encoding (10.5 → "105")
-  - PO number extraction
-  - Synonym expansion so "locate / find / search / খোঁজো" all match
+Phase 1.3 changes:
+  - ALL Bangla text removed. English only throughout.
+  - Synonym groups expanded for natural English variations
+  - Collection PO intent now catches more natural phrasings:
+      "Find Cecil Collection 10.2"
+      "Search Cecil coll 10.2"
+      "Open order sheet for Cecil 10.2"
+      "Find collection 10.2"
+  - Filler words updated to English-only
+  - Descriptions updated to English-only
 
 Adding a new command:
   1. Add IntentRule to INTENT_RULES (or extend an existing one's keywords).
@@ -47,53 +50,68 @@ class IntentRule:
     priority:  int = 0
 
 
-# ── Human-readable descriptions ───────────────────────────────────────────────
+# ── Human-readable descriptions (English only) ────────────────────────────────
 _DESCRIPTIONS: dict[str, str] = {
-    "find_collection_po":  "Outlook-এ collection PO খুঁজবো",
-    "po_entry":            "ERP-তে PO Entry করবো",
-    "cutting_report":      "Cutting Report খুলবো",
-    "production_report":   "Production Report generate করবো",
-    "google_search":       "Google-এ search করবো",
-    "open_outlook":        "Outlook খুলবো",
-    "open_erp":            "ERP খুলবো",
-    "take_screenshot":     "Screenshot নেবো",
+    "find_collection_po":  "Search Outlook for collection PO email",
+    "po_entry":            "Open PO Entry form in ERP",
+    "cutting_report":      "Open Cutting Report in ERP",
+    "production_report":   "Generate Production Report in ERP",
+    "google_search":       "Search Google",
+    "open_outlook":        "Open Outlook",
+    "open_erp":            "Open ERP",
+    "take_screenshot":     "Take a screenshot",
 }
 
 
 # ── Text normalisation ────────────────────────────────────────────────────────
 
-# Filler words to strip before matching
+# Filler words to strip before matching (English only)
 _FILLERS = {
     "please", "can you", "could you", "would you", "jarvis",
-    "আমাকে", "একটু", "দয়া করে", "তুমি", "তুই",
+    "hey", "ok", "okay", "now", "just", "me",
 }
 
-# Synonym groups — all terms in a group are treated as equivalent
+# Synonym groups — all terms in a group treated as the first (canonical) form
 _SYNONYMS: list[tuple[str, ...]] = [
-    ("find", "search", "locate", "get", "fetch", "show", "look for",
-     "খোঁজো", "খুঁজো", "বের করো", "দেখাও", "আনো"),
-    ("open", "launch", "start", "চালু করো", "খুলো", "চালু"),
-    ("collection", "coll", "কালেকশন", "col"),
-    ("outlook", "mail", "মেইল", "ইমেইল", "email"),
-    ("point", "দশমিক", "."),
+    # find/search/open/look-up
+    (
+        "find", "search", "locate", "get", "fetch", "show", "look for",
+        "look up", "pull up", "pull", "open", "launch", "start", "load",
+    ),
+    # collection synonyms
+    (
+        "collection", "coll", "col",
+    ),
+    # outlook/email synonyms
+    (
+        "outlook", "mail", "email", "inbox",
+    ),
+    # point/dot for decimal
+    (
+        "point", "dot", ".",
+    ),
+    # order sheet synonyms
+    (
+        "order sheet", "order", "sheet",
+    ),
 ]
 
 
 def _normalise(text: str) -> str:
     """
-    Lowercase, strip punctuation (except dots in numbers), remove fillers,
-    expand synonyms, collapse whitespace.
+    Lowercase, strip punctuation (except dots in numbers),
+    remove fillers, expand synonyms, collapse whitespace.
     """
     t = text.lower().strip()
 
-    # Strip punctuation except digits, letters, Bengali chars, dot, hyphen
-    t = re.sub(r"[^\w\s.\-\u0980-\u09FF]", " ", t)
+    # Strip punctuation except digits, letters, dot, hyphen
+    t = re.sub(r"[^\w\s.\-]", " ", t)
 
     # Remove filler words
     for filler in _FILLERS:
         t = re.sub(r"\b" + re.escape(filler) + r"\b", " ", t)
 
-    # Expand synonyms: replace every synonym with the first (canonical) form
+    # Expand synonyms: replace every synonym with canonical (first) form
     for group in _SYNONYMS:
         canonical = group[0]
         for synonym in group[1:]:
@@ -107,13 +125,16 @@ def _normalise(text: str) -> str:
 
 def _extract_collection_po(text: str) -> dict:
     """
-    Extract buyer name, collection number, and optional PO number.
+    Extract buyer name, collection number, and optional PO number
+    from a normalised English command.
 
     Examples (after normalisation):
-      "find cecil collection 10.5"
-        → buyer="Cecil", coll_encoded="105", collection_code="" (year added at runtime)
-      "find cecil coll 10.5 po 325978"
-        → buyer="Cecil", coll_encoded="105", po_number="325978"
+      "find cecil collection 10.2"
+        → buyer="Cecil", coll_encoded="102"
+      "find collection 10.2"
+        → buyer="", coll_encoded="102"   (no buyer specified)
+      "find cecil collection 10.2 po 325978"
+        → buyer="Cecil", coll_encoded="102", po_number="325978"
     """
     from core.buyer_registry import buyer_registry
 
@@ -128,7 +149,8 @@ def _extract_collection_po(text: str) -> dict:
                 break
 
     # ── Collection number ─────────────────────────────────────────────────
-    # Matches: "collection 10.5", "collection 10 point 5", "collection 105"
+    # Matches: "collection 10.2", "collection 10 point 2", "collection 102"
+    # After normalisation "coll" → "collection", "point" → "point" (already canonical)
     coll_match = re.search(
         r"\bcollection\b\s*(\d{1,3}(?:[.\s]?\d)?)",
         text,
@@ -139,7 +161,6 @@ def _extract_collection_po(text: str) -> dict:
         params["coll_encoded"] = encoded
 
     # ── PO number ────────────────────────────────────────────────────────
-    # Matches: "po 325978", "po number 325978"
     po_match = re.search(r"\bpo\b\s*(?:number\s*)?(\d{5,10})", text)
     if po_match:
         params["po_number"] = po_match.group(1)
@@ -159,31 +180,27 @@ def _extract_search_query(text: str) -> dict:
 
 
 def _extract_report_date(text: str) -> dict:
-    if any(w in text for w in ["গতকাল", "yesterday", "kal"]):
+    if any(w in text for w in ["yesterday", "kal"]):
         return {"date": "yesterday"}
-    if any(w in text for w in ["আজ", "today", "aaj"]):
+    if any(w in text for w in ["today", "aaj"]):
         return {"date": "today"}
     return {}
 
 
 # ── Intent rules ──────────────────────────────────────────────────────────────
 
-def _build_buyer_keywords() -> list[str]:
-    """Dynamically build buyer keywords from registry so YAML drives matching."""
-    try:
-        from core.buyer_registry import buyer_registry
-        return buyer_registry.all_aliases()
-    except Exception:
-        return []
-
-
 INTENT_RULES: list[IntentRule] = [
 
-    # ── Outlook / PO search (highest priority — most specific) ─────────────
+    # ── Outlook / Collection PO search (highest priority — most specific) ──
+    # Matches any command containing "collection" (the canonical synonym for
+    # coll/col) after normalisation, plus an optional buyer name and number.
+    # Examples after normalisation:
+    #   "find cecil collection 10.2"         ← direct
+    #   "find collection 10.2"               ← no buyer
+    #   "find order sheet for cecil 10.2"    ← "order sheet" synonym
+    #   "search cecil coll 10.2"             ← coll→collection canonical
     IntentRule(
-        # Matches whenever we see "find/search" + a buyer name + "collection"
-        # Built dynamically so adding buyers to YAML auto-adds keywords
-        keywords=["collection"],          # broad anchor; extractor does fine work
+        keywords=["collection"],
         name="find_collection_po",
         extractor=_extract_collection_po,
         priority=20,
@@ -191,25 +208,24 @@ INTENT_RULES: list[IntentRule] = [
 
     # ── ERP workflows ──────────────────────────────────────────────────────
     IntentRule(
-        keywords=["po entry", "po করো", "po দাও", "purchase order entry"],
+        keywords=["po entry", "purchase order entry", "open po"],
         name="po_entry",
         priority=10,
     ),
     IntentRule(
-        keywords=["cutting report", "cutting রিপোর্ট"],
+        keywords=["cutting report"],
         name="cutting_report",
         extractor=_extract_report_date,
         priority=10,
     ),
     IntentRule(
-        keywords=["production report", "production রিপোর্ট"],
+        keywords=["production report"],
         name="production_report",
         extractor=_extract_report_date,
         priority=9,
     ),
     IntentRule(
-        keywords=["open erp", "erp open", "erp start", "launch erp",
-                  "erp চালু", "erp খুলো"],
+        keywords=["open erp", "erp open", "erp start", "launch erp", "start erp"],
         name="open_erp",
         priority=8,
     ),
@@ -217,16 +233,14 @@ INTENT_RULES: list[IntentRule] = [
     # ── Outlook (generic open — lower priority than collection search) ──────
     IntentRule(
         keywords=["open outlook", "start outlook", "launch outlook",
-                  "outlook open", "outlook খুলো", "outlook চালু",
-                  "outlook", "mail open", "open mail"],
+                  "outlook open", "open mail", "open email"],
         name="open_outlook",
         priority=7,
     ),
 
     # ── Browser ────────────────────────────────────────────────────────────
     IntentRule(
-        keywords=["google", "search google", "google search",
-                  "খোঁজো google", "সার্চ"],
+        keywords=["google", "search google", "google search"],
         name="google_search",
         extractor=_extract_search_query,
         priority=6,
@@ -234,7 +248,7 @@ INTENT_RULES: list[IntentRule] = [
 
     # ── Utility ────────────────────────────────────────────────────────────
     IntentRule(
-        keywords=["screenshot", "screen shot", "স্ক্রিনশট"],
+        keywords=["screenshot", "screen shot", "take screenshot"],
         name="take_screenshot",
         priority=5,
     ),

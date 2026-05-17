@@ -4,8 +4,13 @@ core/buyer_registry.py
 Loads buyer definitions from config/buyers.yaml and provides:
 
   - alias resolution:  "cecil" → Buyer(name="Cecil", ...)
-  - collection encoding: "10.5" / "10 point 5" → "105"
-  - full collection code: year + encoded → "2026105"
+  - collection encoding: "10.2" / "10 point 2" → "102"
+  - full collection code: year + encoded → "2026102"
+
+Phase 1.3 changes:
+  - Bangla aliases removed from in-code references
+    (YAML drives aliases — update buyers.yaml directly)
+  - encode_collection comment clarified with new examples
 
 This module is the ONLY place that knows about buyer-specific logic.
 All other modules (intent, workflows) use it through clean methods.
@@ -116,25 +121,26 @@ class BuyerRegistry:
         Convert a spoken collection number to the stored integer form.
 
         Examples:
+          "10.2"         → "102"
+          "10 point 2"   → "102"
           "10.5"         → "105"
-          "10 point 5"   → "105"
-          "3"            → "30"     (whole number → x10)
+          "3"            → "30"      (whole number → ×10)
           "3.0"          → "30"
           "11"           → "110"
-          "105"          → "105"    (already encoded, pass-through)
+          "105"          → "105"     (already 3-digit encoded, pass-through)
 
         Logic:
-          - Replace "point"/"দশমিক" with "."
-          - If decimal present: remove dot  (10.5 → 105)
-          - If whole number:   multiply ×10 (10   → 100)
-          - Exception: if already 3 digits and no dot, treat as encoded
+          - Replace "point"/"dot" with "."
+          - If decimal present: remove dot  (10.2 → 102)
+          - If whole number ≤ 2 digits: multiply ×10 (10 → 100, 3 → 30)
+          - If already 3+ digits: treat as already encoded
         """
         raw = raw.strip().lower()
-        raw = re.sub(r"\bpoint\b|\bদশমিক\b", ".", raw)
-        raw = re.sub(r"\s+", "", raw)           # remove spaces
+        raw = re.sub(r"\bpoint\b|\bdot\b", ".", raw)
+        raw = re.sub(r"\s+", "", raw)       # remove spaces
 
         if "." in raw:
-            # e.g. "10.5" → remove dot → "105"
+            # e.g. "10.2" → remove dot → "102"
             parts = raw.split(".")
             integer = parts[0]
             decimal = parts[1] if len(parts) > 1 else "0"
@@ -161,10 +167,9 @@ class BuyerRegistry:
     def parse_po_from_filename(filename: str) -> tuple[str, str] | None:
         """
         Extract (collection_code, po_number) from a filename like:
-          "2026105-325978.pdf"  → ("2026105", "325978")
+          "2026102-325978.pdf"  → ("2026102", "325978")
         Returns None if pattern doesn't match.
         """
-        # Remove extension
         stem = os.path.splitext(filename)[0]
         m = re.match(r"^(\d{7})-(\d+)$", stem)
         if m:

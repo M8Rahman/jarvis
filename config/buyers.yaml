@@ -6,16 +6,16 @@
 #  ─────────────────────────
 #  Copy the Cecil block below and fill in:
 #    name:         Internal key (no spaces)
-#    aliases:      How you say the name (voice variations)
+#    aliases:      How you say the name (voice variations, English only)
 #    order_types:  Which order types this buyer uses
-#    subject_patterns: Fragments that appear in email subjects
+#    subject_keywords: Fragments that appear in email subjects
 #    attachment_prefix: How PO filenames start
 #
 #  COLLECTION NUMBER ENCODING (applies to all collection-type buyers):
-#    Voice:  "collection 10.5"  or  "coll 10 point 5"
-#    Stored: "105"  (year prefix added at runtime → "2026105")
-#    Rule:   multiply decimal by 10, drop the dot
-#            10.5 → 105,  3.0 → 30,  11.0 → 110
+#    Voice:  "collection 10.2"  or  "collection 10 point 2"
+#    Stored: "102"  (year prefix added at runtime → "2026102")
+#    Rule:   remove the decimal dot:  10.2 → 102,  10.5 → 105
+#            whole numbers get ×10:   10   → 100,   3   → 30
 #
 #  ATTACHMENT SAVE PATH (set in jarvis.yaml):
 #    E:/Projects/JARVIS/attachments/{buyer_name}/{collection_code}/
@@ -27,25 +27,26 @@ buyers:
   - name: Cecil
     aliases:
       - cecil
-      - "সেসিল"
       - "Cecil"
     order_types:
-      - collection          # ← active for Phase 1
-      # - cw                # ← add later
-      # - qr                # ← add later
-      # - nos               # ← add later
+      - collection          # active for Phase 1
+      # - cw                # add later
+      # - qr                # add later
+      # - nos               # add later
 
     collection:
-      # Fragments that MUST appear in email subject to match
+      # Fragments used in subject scoring to identify collection emails.
+      # These do NOT all need to appear — they are used as scoring signals.
+      # See outlook_workflows.py → _score_subject() for the full logic.
       subject_keywords:
-        - "Cecil"
         - "coll"
         - "collection"
-      # How attachment filenames are structured:
+        - "order sheet"
+      # Attachment filename structure:
       #   {collection_code}-{po_number}.pdf
-      #   e.g. 2026105-325978.pdf
+      #   e.g. 2026102-325978.pdf
       attachment_pattern: "{collection_code}-{po_number}.pdf"
-      attachment_prefix: ""   # no fixed prefix for Cecil
+      attachment_prefix: ""
 
   # ── Add more buyers below following the same structure ─────────────
   # - name: BuyerTwo
@@ -56,7 +57,7 @@ buyers:
   #     - collection
   #   collection:
   #     subject_keywords:
-  #       - "BuyerTwo"
-  #       - "Order"
+  #       - "coll"
+  #       - "order"
   #     attachment_pattern: "{collection_code}-{po_number}.pdf"
   #     attachment_prefix: ""

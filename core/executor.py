@@ -3,10 +3,9 @@ core/executor.py
 ────────────────
 Receives a confirmed Action and executes it.
 
-Changes from Phase 1:
-  - Added find_collection_po handler
-  - memory.log_command called after every execution
-  - safety.log_action called after every execution
+Phase 1.3 changes:
+  - All Bangla text removed. English only.
+  - Error messages updated to English.
 """
 
 from __future__ import annotations
@@ -37,7 +36,7 @@ class ExecutionResult:
     message: str = ""
 
 
-def OK(msg: str = "Done.")  -> ExecutionResult: return ExecutionResult(True,  msg)
+def OK(msg: str = "Done.")    -> ExecutionResult: return ExecutionResult(True,  msg)
 def FAIL(msg: str = "Error.") -> ExecutionResult: return ExecutionResult(False, msg)
 
 
@@ -53,13 +52,13 @@ class ActionExecutor:
     def run(self, action: Action) -> ExecutionResult:
         handler = self._handlers.get(action.name)
         if not handler:
-            return FAIL(f"No handler for action: {action.name}")
+            return FAIL(f"No handler registered for action: {action.name}")
         try:
             result = handler(action)
         except pyautogui.FailSafeException:
             log.warning("PyAutoGUI failsafe triggered.")
             self.safety.engage_stop()
-            result = FAIL("Failsafe: mouse moved to corner. Stopped.")
+            result = FAIL("Failsafe triggered: mouse moved to screen corner. Stopped.")
         except Exception as exc:
             log.exception("Handler '%s' raised: %s", action.name, exc)
             result = FAIL(str(exc))
@@ -94,7 +93,10 @@ class ActionExecutor:
         from workflows.outlook_workflows import find_collection_po
         if self._check_stop(): return FAIL("Stopped by user.")
         if not action.params.get("buyer"):
-            return FAIL("Buyer না বলে command দিলে কাজ হবে না। যেমন: Cecil collection 10.5")
+            return FAIL(
+                "Please say the buyer name with the command. "
+                "Example: Find Cecil Collection 10.2"
+            )
         return find_collection_po(action.params)
 
     def _h_open_outlook(self, action: Action) -> ExecutionResult:
@@ -136,7 +138,7 @@ class ActionExecutor:
         if self._check_stop(): return FAIL("Stopped by user.")
         query = action.params.get("query", "")
         if not query:
-            return FAIL("No search query found.")
+            return FAIL("No search query found in command.")
         return google_search(query)
 
     # ── Utility handler ───────────────────────────────────────────────────────
@@ -149,4 +151,4 @@ class ActionExecutor:
         path = os.path.join(settings.str("log_dir"), f"screenshot_{ts}.png")
         pyautogui.screenshot(path)
         log.info("Screenshot saved: %s", path)
-        return OK(f"Screenshot saved: {path}")
+        return OK(f"Screenshot saved to {path}")
