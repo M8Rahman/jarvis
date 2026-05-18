@@ -1,21 +1,21 @@
 # JARVIS — Project Context Document
-### Version: Phase 1.3  |  Last updated: 2026-05-16
+### Version: Phase 2.0  |  Last updated: 2026-05-18
 
 > **PURPOSE OF THIS FILE:**
 > Give this document to Claude at the start of any new conversation.
 > It contains everything needed to continue development without losing context.
-> Keep it updated as the project grows.
 
 ---
 
 ## 1. WHAT THIS PROJECT IS
 
 A fully local/offline AI desktop assistant for Windows 11.
-It listens for English voice commands, confirms before acting, and automates
-desktop tasks like a trained human operator.
+Listens for English voice commands, confirms before acting, automates
+desktop tasks like a trained human operator, and extracts structured
+data from PO PDFs using a trainable template system.
 
-NOT a chatbot. NOT an autonomous agent.
-A deterministic automation assistant with lightweight AI support.
+NOT a chatbot. NOT an autonomous agent. NOT an LLM wrapper.
+A deterministic automation assistant with targeted lightweight AI support.
 
 ---
 
@@ -25,62 +25,73 @@ A deterministic automation assistant with lightweight AI support.
 |-----------|------|
 | CPU | Intel Core i3-12100 |
 | GPU | Intel UHD Graphics 730 (no CUDA) |
-| RAM | 8 GB DDR4 (possible upgrade to 16/32 GB later) |
+| RAM | 8 GB DDR4 |
 | Storage | 512 GB NVMe SSD |
 | OS | Windows 11 Pro |
 
-All models and processing run on CPU only. No GPU acceleration.
+All processing is CPU-only. No GPU acceleration.
 
 ---
 
 ## 3. CORE DESIGN PHILOSOPHY
 
 - Deterministic automation first. AI reasoning second.
-- Human confirmation before every action. No autonomous execution.
-- Offline-first. No cloud APIs ever.
+- Human confirmation before every action.
+- Offline-first. No cloud APIs.
 - Low RAM. Lightweight. Modular.
-- Incremental progress. One reliable workflow before adding new ones.
-- Never overengineer. No agent frameworks. No LangChain. No CrewAI.
-- English only. No Bangla in code, comments, prompts, or responses.
+- Trainable, not black-box.
+- English only. No Bangla in code or prompts.
+- Never overengineer. No LangChain, no CrewAI, no agent frameworks.
 
 ---
 
 ## 4. PROJECT FILE STRUCTURE
 
 ```
-E:/Projects/JARVIS/             ← runtime data (logs, attachments, memory)
+E:/Projects/JARVIS/             ← runtime data
   attachments/
     Cecil/
-      2026102/                  ← collection_code folders
+      2026102/
         2026102-325978.pdf
+  templates/                    ← Phase 2: PDF extraction templates
+    Cecil_collection.json
+    StreetOne_collection.json
   memory/
-    jarvis_memory.db            ← SQLite memory
+    jarvis_memory.db
   logs/
-    jarvis.log                  ← rotating log (5MB x 3)
-    actions.log                 ← audit log
+    jarvis.log
+    actions.log
 
-[project source root]/
+[source root]/
   main.py
   requirements.txt
   config/
-    jarvis.yaml                 ← user config (edit this)
-    buyers.yaml                 ← buyer definitions (edit this)
-    settings.py                 ← config loader singleton
+    jarvis.yaml                 ← user config
+    buyers.yaml                 ← buyer definitions
+    settings.py                 ← config loader
   core/
     listener.py                 ← mic → faster-whisper → text
-    intent.py                   ← text → Action (rule-based + synonyms)
-    executor.py                 ← Action → runs workflow
-    tts.py                      ← pyttsx3 offline TTS (dedicated thread)
+    intent.py                   ← text → Action (BUGS FIXED in Phase 2)
+    executor.py                 ← Action → workflow (Phase 2 handlers added)
+    tts.py                      ← offline TTS
     safety.py                   ← emergency stop + audit log
-    state.py                    ← shared mutable state
+    state.py                    ← shared state
     memory.py                   ← SQLite memory
-    buyer_registry.py           ← loads buyers.yaml, resolves aliases, encodes collections
+    buyer_registry.py           ← buyer aliases, collection encoding
   workflows/
-    erp_workflows.py            ← ERP keyboard/mouse automation (stubs)
-    outlook_workflows.py        ← Outlook COM + intelligent subject scoring
-    browser_workflows.py        ← Google search
+    erp_workflows.py
+    outlook_workflows.py
+    browser_workflows.py
+  po_extractor/                 ← Phase 2: new module
+    __init__.py
+    pdf_renderer.py             ← PDF → PIL Image (PyMuPDF)
+    ocr_engine.py               ← text extraction (direct + Tesseract fallback)
+    template_store.py           ← template JSON storage
+    field_extractor.py          ← applies templates to extract fields
+    trainer_ui.py               ← Tkinter visual training interface
   tools/
-    record_workflow.py          ← records keyboard/mouse for ERP workflow capture
+    record_workflow.py
+  query.txt                     ← deferred Outlook/PO questions (19 items)
 ```
 
 ---
@@ -89,280 +100,254 @@ E:/Projects/JARVIS/             ← runtime data (logs, attachments, memory)
 
 | Purpose | Tool | Notes |
 |---------|------|-------|
-| Speech-to-text | faster-whisper (base model) | Offline, English only |
-| Text-to-speech | pyttsx3 (Windows SAPI5) | Offline, English only |
-| Intent matching | Rule-based + normalisation | No LLM in Phase 1 |
-| Keyboard/mouse | pyautogui | FAILSAFE=True always |
+| Speech-to-text | faster-whisper (base) | Offline, English |
+| Text-to-speech | pyttsx3 (SAPI5) | Offline |
+| Intent matching | Rule-based | No LLM in Phase 2 |
+| Keyboard/mouse | pyautogui | FAILSAFE=True |
 | Window focus | pygetwindow | |
-| Outlook | win32com (pywin32) | COM model, not UI clicking |
-| Config | PyYAML | jarvis.yaml + buyers.yaml |
-| Memory | SQLite (built-in) | No ORM, plain SQL |
-| Hotkeys | keyboard library | Global, works system-wide |
-
-Future (RAM >= 16 GB): Replace rule-based intent with Ollama phi3-mini
-
----
-
-## 6. HOTKEYS
-
-| Key | Action |
-|-----|--------|
-| Ctrl+Alt | Start listening (configurable in jarvis.yaml) |
-| Ctrl+Shift+X | Emergency stop |
-| Ctrl+C | Quit JARVIS |
-
-Configurable in jarvis.yaml:
-  listen_hotkey: "ctrl+alt"
-  stop_hotkey:   "ctrl+shift+x"
+| Outlook | win32com (pywin32) | COM model |
+| PDF rendering | PyMuPDF (fitz) | Fast, no dependencies |
+| PDF OCR | pytesseract | Fallback for scanned PDFs |
+| Image manipulation | Pillow | |
+| Training UI | tkinter | Built-in, no install needed |
+| Config | PyYAML | |
+| Memory | SQLite | |
+| Hotkeys | keyboard | |
 
 ---
 
-## 7. BUYER SYSTEM — CRITICAL DOMAIN KNOWLEDGE
+## 6. BUGS FIXED IN PHASE 2.0
 
-### Collection number encoding
-Voice: "collection 10.2" or "collection 10 point 2"
-Stored: "102" (remove decimal dot)
-Full code: year + encoded → "2026102"
+### BUG 1: Collection number encoding (10.2 → 100 instead of 102)
+**Root cause:** `_normalise()` replaced `.` with `point` via the synonym group
+`('point', 'dot', '.')`. This turned `10.2` into `10point2`. The collection
+regex then captured only `10`, which encoded to `100` (×10 rule).
 
-| Voice says | Encoded | Full code (2026) |
-|-----------|---------|-----------------|
-| collection 10.2 | 102 | 2026102 |
-| collection 10.5 | 105 | 2026105 |
-| collection 3.0  | 30  | 202630  |
-| collection 11   | 110 | 2026110 |
-| collection 3    | 30  | 202630  |
+**Fix:** Removed `.` from the synonym group. The `_extract_collection_po()`
+extractor now receives **raw text** alongside normalised text and uses raw
+for numeric extraction via a separate regex that handles both `10.2` and
+`10 point 2`.
 
-Rule: decimal present → remove dot. Whole number → multiply x10. 3+ digits → pass through.
+**Verified:** "Find Cecil collection 10.2" → `coll_encoded="102"` ✓
 
-### Email subject pattern (Cecil)
-"Order sheet of coll 2026102" means:
-- Collection code: 2026102 (year 2026, collection 10.2)
+### BUG 2: Google search query corrupted ("find for kylie jenner")
+**Root cause:** `_extract_search_query()` worked on normalised text where
+`search` → `find`. "Google search for Kylie Jenner" became "google find for
+kylie jenner". The extractor found "find" as a keyword and returned everything
+after it including the word "find".
 
-### PDF attachment naming
-"2026102-325978.pdf" means:
-- Collection code: 2026102
-- PO number: 325978
+**Fix:** Extractor now works on **raw text** with leading trigger pattern
+stripping. "Google search for Kylie Jenner" → `query="Kylie Jenner"` ✓
 
-### Attachment save path
-E:/Projects/JARVIS/attachments/Cecil/2026102/2026102-325978.pdf
+### BUG 3: "Open Outlook" not matching after synonym expansion
+**Root cause:** `open` → `find` in normalisation. "Open Outlook" becomes
+"find outlook". The intent rule only listed "open outlook" as keyword, not
+"find outlook".
 
-### Order types
-- Collection — Phase 1 (implemented)
-- CW — Phase 2 (not started)
-- QR — Phase 2 (not started)
-- NOS — Phase 2 (not started)
+**Fix:** Added `"find outlook"`, `"find mail"`, `"find inbox"` to the
+`open_outlook` intent rule keywords. ✓
+
+### BUG 4: Extractor function signature mismatch
+**Root cause:** Intent rules defined extractors as `Callable[[str], dict]`
+(single arg) but needed to pass both normalised and raw text.
+
+**Fix:** All extractors now accept `(normalised: str, raw: str) -> dict`.
+The `IntentEngine.parse()` passes both. ✓
 
 ---
 
-## 8. INTELLIGENT OUTLOOK SUBJECT SCORING (Phase 1.3)
+## 7. PHASE 2 NEW FEATURE: PO PDF EXTRACTION SYSTEM
 
-The old implementation required ALL keywords to appear in the subject → missed real emails.
-
-The new implementation scores every candidate email and picks the best match.
-
-### Hard gate
-If the collection code (e.g. "2026102") is NOT in the subject → score = 0 → excluded.
-Everything below is soft scoring on top of the base 100.
-
-### Scoring table
+### Architecture
 ```
-+100  collection code present                    (hard gate — REQUIRED)
-+ 30  "order sheet" in subject
-+ 20  "coll" or "collection" in subject
-+ 15  buyer name in subject
-+  5  clean original (no RE:/FW: prefix)
--  5  reply (RE:) or forward (FW:) chain
-- 10  noise phrase: revised, add new quantity, correction, amendment, etc.
+Voice: "Extract Cecil collection PDF"
+          ↓
+    intent: extract_po_pdf
+          ↓
+    executor._h_extract_po_pdf()
+          ↓
+    FieldExtractor.extract(pdf_path, buyer, order_type)
+          ↓
+    ┌─────────────────────────────────┐
+    │  1. PDFRenderer → page image    │
+    │  2. OCREngine.extract_smart()   │
+    │     → direct text (PyMuPDF)     │
+    │     → Tesseract OCR (fallback)  │
+    │  3. Template-based extraction   │
+    │     (if template trained)       │
+    │  4. Heuristic extraction        │
+    │     (pattern matching fallback) │
+    │  5. ExtractionResult            │
+    └─────────────────────────────────┘
+          ↓
+    Show result window (non-blocking Tkinter)
+    Speak summary: "Extracted N fields"
 ```
 
-### Example results for "Find Cecil Collection 10.2" → code "2026102"
+### Training workflow
 ```
-"Order sheet of coll 2026102"                  → score 170  ← WINNER
-"Order sheet of coll 2026102 add new quantity" → score 160
-"RE: Order sheet of coll 2026102"              → score 160
-"FW: Some update 2026102"                      → score 115
-"Unrelated email"                              → score   0  (excluded)
+Voice: "Train Cecil collection PDF"
+          ↓
+    Opens TrainerUI (Tkinter window)
+          ↓
+    User opens PDF file
+          ↓
+    JARVIS prompts field-by-field:
+    "Draw box around: Purchase Order Number"
+          ↓
+    User drags rectangle on PDF image
+          ↓
+    JARVIS OCRs region, shows result
+          ↓
+    User presses Enter to confirm
+          ↓
+    Region saved to template JSON
+    (normalised coordinates 0.0-1.0)
+          ↓
+    Repeat until all fields trained
+          ↓
+    Template saved: templates/Cecil_collection.json
 ```
 
-Ties broken by received date (items sorted newest-first before scanning).
+### Template storage
+One JSON file per (buyer, order_type):
+```
+templates/
+  Cecil_collection.json
+  StreetOne_collection.json
+  StreetOneStudio_collection.json
+```
 
-### Key functions in outlook_workflows.py
-- `_normalise_subject(subject)` — strip RE:/FW: chains, lowercase
-- `_score_subject(subject, collection_code, buyer)` → int score
-- `_find_best_collection_email(items, buyer, code, max_search)` → best email COM object
+Each template stores normalised bbox coordinates [x, y, w, h] as 0.0–1.0
+fractions of page dimensions. This makes templates DPI-independent —
+they work regardless of rendering resolution.
+
+### Fields tracked (20 total)
+buyer_name, order_type, collection_number, po_number, style_number,
+style_description, fob_price, colors, sizes, size_qty_s, size_qty_m,
+size_qty_l, size_qty_xl, size_qty_xxl, total_quantity, delivery_date,
+delivery_port, ship_mode, currency, lc_number
+
+### Extraction methods
+1. **Template-based** (after training): crops exact region, OCRs it.
+   Confidence = 0.5 + (samples_seen × 0.09), max 0.95.
+2. **Heuristic** (before training / fallback): regex patterns on full text.
+   Confidence = 0.60–0.70 depending on pattern strength.
+3. **Mixed**: some fields from template, some from heuristics.
+
+### OCR strategy
+- **Tier 1 — Direct** (PyMuPDF): extracts text from digital PDFs with
+  exact coordinates. Zero CPU overhead. Most Cecil/Street One POs are digital.
+- **Tier 2 — Tesseract**: used only for scanned/image PDFs.
+  EasyOCR was NOT chosen: 400MB+ model, too slow on CPU.
+- **Region-based OCR**: for template fields, only the trained region is
+  OCR'd — not the whole page. Upscales small regions before OCR.
 
 ---
 
-## 9. VOICE PIPELINE (Phase 1.2 + 1.3)
+## 8. VOICE PIPELINE (unchanged from Phase 1.2/1.3)
 
-```
-Hotkey pressed
-    → speaker.say_and_wait("Listening.")     blocks until TTS done
-    → PRE_RECORD_DELAY (0.4s)                mic opens after speaker settles
-    → _record()                              captures audio + tracks speech_secs
-    → Speech Gate                            < 0.5s real speech → discard, say "didn't hear"
-    → Whisper transcribe (vad_filter=True)   skips silence internally
-    → Hallucination filter                   "thank you" etc → None
-    → intent.parse(text)                     rule-based + synonym expansion
-    → confirmation (say_and_wait + keyboard) 
-    → executor.run(action)
-```
-
-### Tunable constants in core/listener.py
-| Constant | Default | Meaning |
-|----------|---------|---------|
-| SILENCE_DB | 500 | Amplitude threshold. Raise if noisy mic. |
-| MIN_SPEECH_DURATION | 0.5s | Min real speech to pass gate. |
-| PRE_RECORD_DELAY | 0.4s | Pause after TTS before mic opens. |
-| MAX_SILENCE | 2.0s | Silence after speech → stop recording. |
-| MAX_RECORD | 10.0s | Hard cap on recording time. |
+Same as before. No changes in Phase 2.
+See Phase 1.3 CONTEXT.md for full pipeline documentation.
 
 ---
 
-## 10. INTENT ENGINE — COMMAND VARIATIONS SUPPORTED
+## 9. INTENT ENGINE CHANGES (Phase 2)
 
-All synonym expansion happens in _normalise() before matching.
-Synonyms (any of these → canonical):
-  find / search / locate / get / fetch / show / look for / look up /
-  pull up / open / launch / start / load
-  → all map to "find"
+Two new intent rules added:
+- `extract_po_pdf`   — triggers on "extract po", "read pdf", "scan po", etc.
+- `train_po_template` — triggers on "train po", "train pdf", "label pdf", etc.
 
-  collection / coll / col
-  → all map to "collection"
+All extractor functions now have signature: `(normalised: str, raw: str) -> dict`
 
-So all of these match the same intent:
-  "Find Cecil Collection 10.2"
-  "Search Cecil coll 10.2"
-  "Open order sheet Cecil 10.2"
-  "Locate Cecil col 10.2"
-  "Pull up Cecil collection 10.2"
+New synonym group: `('point', 'dot')` — note `.` removed from this group.
+
+Full keyword list for new intents:
+- extract_po_pdf: ["extract po", "extract pdf", "read po", "read pdf",
+                   "scan po", "process pdf", "extract purchase order"]
+- train_po_template: ["train po", "train pdf", "teach pdf", "train template",
+                      "train extraction", "label pdf"]
 
 ---
 
-## 11. HOW TO ADD A NEW COMMAND
+## 10. DEFERRED QUESTIONS
 
-1. Add IntentRule to INTENT_RULES in core/intent.py
-2. Add handler to _build_handlers() in core/executor.py
-3. Add handler method _h_yourname() in core/executor.py
-4. Add workflow function in workflows/*.py
-5. Add description to _DESCRIPTIONS in core/intent.py
+All unresolved Outlook/PO matching questions are stored in `query.txt`.
+There are 19 questions across 6 sections:
+- Email matching ambiguity (Q1–Q5)
+- Collection number ambiguity (Q6–Q8)
+- Attachment/PDF handling (Q9–Q11)
+- Multi-buyer scenarios (Q12–Q14)
+- Intent engine stability (Q15–Q16)
+- Future Outlook features (Q17–Q19)
 
-No model retraining. No YAML changes (unless it's a new buyer).
+To address them: "Let's work through query.txt"
 
 ---
 
-## 12. PHASES — WHAT'S DONE AND WHAT'S NEXT
+## 11. PHASES STATUS
 
-### Phase 1 (DONE)
-- Voice hotkey trigger
-- faster-whisper STT (offline)
-- Rule-based intent engine
-- Human confirmation before action
-- Emergency stop
-- Google search, Outlook open, ERP workflow stubs
-- pyttsx3 TTS
+### Phase 1 (DONE) — Basic voice + Outlook + browser
+### Phase 1.1 (DONE) — TTS fix, buyer registry, Outlook PO search
+### Phase 1.2 (DONE) — Voice pipeline (speech gate, VAD, TTS bleed)
+### Phase 1.3 (DONE) — English-only, intelligent subject scoring
+### Phase 2.0 (DONE) — Bug fixes + PDF extraction system foundation
 
-### Phase 1.1 (DONE)
-- TTS threading bug fixed (dedicated worker thread + queue)
-- Buyer registry system (buyers.yaml)
-- Collection number encoding logic
-- Full Outlook collection PO search workflow
-- PDF attachment saving (structured folders)
-- SQLite memory (command_history + workflow_log)
-- Text normalisation for English commands
-- Rotating log files
-
-### Phase 1.2 (DONE)
-- Voice pipeline bug fixed: no more instant "cannot handle command"
-- say_and_wait() used for "Listening." — mic opens after TTS finishes
-- PRE_RECORD_DELAY added
-- Speech gate (MIN_SPEECH_DURATION = 0.5s)
-- vad_filter=True in Whisper
-- Hallucination filter
-- import time fix in main.py
-- Debug logging throughout
-
-### Phase 1.3 (DONE)
-- ALL Bangla text removed from entire codebase (English only)
-- Intelligent Outlook subject scoring system replacing simple AND-match
-- _score_subject() deterministic scoring function
-- _find_best_collection_email() replaces _find_collection_email()
-- Subject normalisation (_normalise_subject)
-- Synonym groups expanded for natural English phrasings
-- buyers.yaml cleaned to English-only aliases
-- All error/response messages converted to English
-
-### Phase 2 (NEXT)
-- ERP keyboard workflow implementation (use record_workflow.py first)
-- CW / QR / NOS order type support
-- More buyers added to buyers.yaml
-- OCR screen reading for post-action verification
+### Phase 2.1 (NEXT)
+- ERP keyboard workflow implementation
+- CW / QR / NOS order type support in Outlook + PDF
+- More buyers in buyers.yaml (Street One, Street One Studio)
+- Test trainer UI with real Cecil PO PDFs
+- Refine heuristic patterns based on actual PDF content
 
 ### Phase 3 (FUTURE — needs 16 GB RAM)
-- Wake word trigger ("Hey JARVIS") via openwakeword
+- Wake word ("Hey JARVIS") via openwakeword
 - Local LLM intent (Ollama phi3-mini)
 - Better TTS (Coqui TTS or Edge TTS)
+- Multi-page PDF support in extractor
 
 ---
 
-## 13. KNOWN LIMITATIONS
-
-1. ERP workflows are stubs. Use tools/record_workflow.py to capture keystrokes,
-   then fill in workflows/erp_workflows.py.
-
-2. Collection year hardcoded to current year (datetime.now().year).
-   Searching old emails from prior year will fail.
-   Fix: add year extraction to intent extractor.
-
-3. Outlook search is sequential (up to 200 emails). Large inboxes may be slow.
-   Fix later: use Outlook DASL filter queries for server-side filtering.
-
-4. pyaudio may fail to install on some systems.
-   Use pre-built wheel: https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyaudio
-
----
-
-## 14. IMPORTANT CONFIG PATHS (jarvis.yaml)
+## 12. IMPORTANT CONFIG PATHS
 
 ```yaml
 attachment_root:  E:/Projects/JARVIS/attachments
+templates_dir:    E:/Projects/JARVIS/templates      ← NEW Phase 2
 memory_db_path:   E:/Projects/JARVIS/memory/jarvis_memory.db
 log_dir:          E:/Projects/JARVIS/logs
-erp_window_title: "ERP"          # change to your ERP window title
-erp_executable:   ""             # full path to ERP .exe
-whisper_model:    base           # change to "small" if RAM allows
+erp_window_title: "ERP"
+erp_executable:   ""
+whisper_model:    base
 listen_hotkey:    "ctrl+alt"
 stop_hotkey:      "ctrl+shift+x"
 ```
 
 ---
 
-## 15. DEBUGGING
+## 13. KNOWN REMAINING ISSUES
 
-Set log_level: DEBUG in jarvis.yaml for full pipeline trace:
+1. ERP workflows are stubs. Use tools/record_workflow.py to capture.
 
-```
-[MAIN]     Hotkey triggered — starting listening turn.
-[MAIN]     TTS finished. Opening microphone now.
-[LISTENER] Pre-recording delay 0.4s...
-[LISTENER] Microphone activated — waiting for speech...
-[LISTENER] Audio captured: 3.20s total, 1.84s speech
-[LISTENER] Speech gate passed (1.84s). Sending to Whisper...
-[LISTENER] Transcription result: 'Find Cecil Collection 10.2'
-[MAIN]     Heard: 'Find Cecil Collection 10.2'
-[MAIN]     Intent matched: find_collection_po | Params: {buyer: Cecil, coll_encoded: 102}
-           Candidate [score=170]: 'Order sheet of coll 2026102'
-           Candidate [score=160]: 'RE: Order sheet of coll 2026102'
-           Best match [score=170]: 'Order sheet of coll 2026102'
-```
+2. PDF trainer requires PDFs to be present locally. Voice command
+   "Train Cecil collection PDF" needs a pdf_path in params — currently
+   it opens the file dialog if no path is given. Future: add voice
+   file path extraction or use last downloaded attachment.
+
+3. Template training is per-page (page 0 only in Phase 2).
+   Multi-page POs not yet supported.
+
+4. The attachment PDF naming pattern discrepancy (Q9 in query.txt):
+   Cecil's actual PDFs appear to be named "325978.pdf" not
+   "2026102-325978.pdf" as the template specifies. This needs
+   confirmation before fix.
+
+5. Street One and Street One Studio are not yet in buyers.yaml.
 
 ---
 
-## 16. HOW TO CONTINUE THIS PROJECT IN A NEW CONVERSATION
+## 14. HOW TO CONTINUE
 
-1. Give Claude this entire CONTEXT.md.
-2. Share your GitHub repo link or paste relevant file contents.
-3. State what you want to build next.
-4. Say: "Continue from Phase X, modify incrementally."
-
-Never ask Claude to rewrite from scratch.
+1. Give Claude this CONTEXT.md + the relevant source files
+2. State the next goal clearly
+3. Say: "Continue from Phase 2.1, modify incrementally"
+4. Never ask Claude to rewrite from scratch

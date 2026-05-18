@@ -1,0 +1,50 @@
+# ══════════════════════════════════════════════════════
+#  JARVIS Configuration  —  config/jarvis.yaml
+#  Edit this file for your setup. No code changes needed.
+# ══════════════════════════════════════════════════════
+
+# ── Voice / STT ───────────────────────────────────────
+# Options: tiny | base | small | medium
+# base  → recommended for 8 GB RAM
+# small → better accuracy, ~500 MB RAM
+whisper_model: base
+
+# ── TTS ───────────────────────────────────────────────
+tts_rate: 165
+tts_volume: 0.9
+tts_voice_name: ""
+
+# ── ERP Settings ──────────────────────────────────────
+erp_window_title: "ERP"
+erp_executable:   ""
+
+# ── Automation Timing ─────────────────────────────────
+action_delay: 0.3
+confirmation_timeout: 8.0
+
+# ── Outlook Settings ──────────────────────────────────
+outlook_search_folder: "Inbox"
+outlook_max_search:    200
+outlook_launch_wait:   8.0
+
+# ── Attachment Storage ────────────────────────────────
+attachment_root: "E:/Projects/JARVIS/attachments"
+
+# ── Memory / History ──────────────────────────────────
+memory_db_path: "E:/Projects/JARVIS/memory/jarvis_memory.db"
+
+# ── Logging ───────────────────────────────────────────
+log_dir:   "E:/Projects/JARVIS/logs"
+log_level: "INFO"
+log_max_bytes:   5242880
+log_backup_count: 3
+
+# ── Hotkeys ───────────────────────────────────────────
+listen_hotkey: "ctrl+alt"
+stop_hotkey:   "ctrl+shift+x"
+
+# ── PO Template Extraction (Phase 2) ──────────────────
+# Where buyer PDF extraction templates are stored.
+# One JSON file per (buyer, order_type) pair.
+# These are created by the trainer UI and read by the extractor.
+templates_dir: "E:/Projects/JARVIS/templates"

@@ -1,0 +1,138 @@
+# JARVIS — Deferred Questions (Outlook / PO Workflow)
+# Created: Phase 1.3 → Phase 2 transition
+# Status: PAUSED — to be addressed in a future session
+# ═══════════════════════════════════════════════════════════════════
+
+## SECTION 1: EMAIL MATCHING AMBIGUITY
+
+Q1. What should JARVIS do when multiple emails score identically (e.g., two
+    originals both titled "Order sheet of coll 2026102")?
+    Options considered:
+      a) Always pick the newest (current behaviour — tie-break by ReceivedTime)
+      b) Present both to the user and ask which to open
+      c) Open all matching emails simultaneously
+    Decision needed: which is correct for your workflow?
+
+Q2. What happens if the correct email is older than 200 emails in the Inbox?
+    The current max_search cap of 200 is hard. Should we:
+      a) Increase the cap (slower)?
+      b) Use Outlook DASL server-side date filters to pre-filter?
+      c) Add a voice parameter like "find Cecil collection 10.2 from last month"?
+
+Q3. Should JARVIS also search non-Inbox folders (Sent, subfolders)?
+    Some buyers may reply to a thread and the original is in a subfolder.
+    If yes, which folders should be searched, in what order?
+
+Q4. When a forwarded email (FW:) scores highest (e.g., 115) but no original
+    email (score 170+) is found, should JARVIS:
+      a) Open the FW email anyway (current behaviour)
+      b) Warn: "Only found a forwarded copy. Shall I open it?"
+      c) Skip and say "Original not found"?
+
+Q5. The current scoring penalises RE:/FW: emails by -5/-5. Is this penalty
+    correct for your company's email conventions? Do buyers sometimes send
+    the actual PO as a reply (RE:) rather than a fresh email?
+
+---
+
+## SECTION 2: COLLECTION NUMBER AMBIGUITY
+
+Q6. Voice says "collection 10" — is that:
+      a) Collection 10.0 → encoded "100"
+      b) Ambiguous — JARVIS should ask "Did you mean 10.0?"
+    This matters: "collection 10" and "collection 10.0" both encode to "100"
+    but "collection 10.2" encodes to "102". Is the whole-number shortcut safe?
+
+Q7. What year does JARVIS use for collection codes?
+    Currently: datetime.now().year (always current year).
+    Problem: searching January 2027 for a December 2026 email will fail.
+    Fix options:
+      a) Add voice parameter: "Find Cecil collection 10.2 from last year"
+      b) Auto-search both current year and previous year if not found
+      c) Let user say the year explicitly: "Find Cecil collection 2026 ten point two"
+
+Q8. Are collection numbers always X.Y format (one decimal digit)?
+    Or can they be X.Y.Z or just X (e.g., collection 12 meaning something specific)?
+    Need to confirm the full range of valid collection number formats.
+
+---
+
+## SECTION 3: ATTACHMENT / PDF HANDLING
+
+Q9. The log shows: "No PO PDFs found in this email" even though 7 PDFs were
+    saved (file names like 319928.pdf, 325886.pdf, etc. without the
+    collection_code prefix). This means parse_po_from_filename() did not
+    match because the pattern expects "2026100-325978.pdf" but actual files
+    are named "325978.pdf" (no collection code prefix).
+    Question: What IS the actual PDF naming convention from Cecil?
+    Is it always "{collection_code}-{po_number}.pdf" or just "{po_number}.pdf"?
+    The YAML says: attachment_pattern: "{collection_code}-{po_number}.pdf"
+    but reality appears to differ. Needs clarification.
+
+Q10. When JARVIS saves attachments from an email that has 7 PDFs, should it:
+      a) Open all 7 PDFs immediately (overwhelming)
+      b) Open only the first one
+      c) List all PO numbers and ask which to open
+      d) Just save them and report count (current behaviour)
+
+Q11. If an attachment has already been saved (file exists), JARVIS skips it.
+     Should JARVIS ever overwrite/update an existing PDF?
+     Scenario: buyer sends a correction email with same-named PDF.
+     Should JARVIS detect "revised" in subject and overwrite?
+
+---
+
+## SECTION 4: MULTI-BUYER SCENARIOS
+
+Q12. Street One and Street One Studio — are they different buyers with
+     different email subjects and PDF formats?
+     Or are they treated as one buyer with a shared template?
+     Need: a sample email subject and PDF name for each.
+
+Q13. When user says "Find Street One collection 10.2" — will Whisper
+     correctly transcribe "Street One"? Or will it hear "street one studio"
+     or garble it?
+     Recommend testing and adding extensive aliases to buyers.yaml for
+     multi-word buyer names.
+
+Q14. CW, QR, NOS order types — what do the email subjects look like for these?
+     What does a CW email subject look like vs a collection email?
+     This is needed to extend subject scoring to non-collection PO types.
+
+---
+
+## SECTION 5: INTENT ENGINE STABILITY
+
+Q15. "Open Outlook" stopped matching in one session (log: 14:00:45 — no
+     intent matched). This happened after a successful find_collection_po
+     run. Root cause unknown. Did the session state affect intent rules?
+     Need to add a diagnostic log at startup listing all registered rules
+     and their keyword lists, so this can be debugged if it recurs.
+
+Q16. What should happen if JARVIS correctly identifies intent but the
+     confirmation times out (8 seconds)?
+     Currently: treated as cancel. Is this correct?
+     Alternative: Ask again once before cancelling.
+
+---
+
+## SECTION 6: FUTURE OUTLOOK FEATURES
+
+Q17. "Read latest buyer PO" intent exists in executor but no intent rule
+     maps to it. Should this be added? If so, what voice phrase should
+     trigger it? (e.g., "Read latest email" / "Latest PO")
+
+Q18. Should JARVIS be able to reply to an email? E.g., "Reply to Cecil
+     confirming PO 325978"? If yes, this requires a new workflow and
+     confirmation layer to prevent accidental sends.
+
+Q19. Should JARVIS track which emails have already been processed?
+     (To avoid double-processing the same PO email on repeat queries.)
+     Could use SQLite memory with email EntryID as key.
+
+---
+
+## HOW TO RESUME THESE QUESTIONS
+# Give this file to Claude at the start of a future session with the
+# CONTEXT.md and say: "Let's address the questions in query.txt."
+# Questions are numbered Q1-Q19 for easy reference.

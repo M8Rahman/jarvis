@@ -487,3 +487,67 @@ NameError: name 'time' is not defined. Did you forget to import 'time'
 2026-05-17 14:03:00 [INFO] jarvis.workflows.browser: Opening Google search: https://www.google.com/search?q=find+for+kylie+jenner.
 2026-05-17 14:03:01 [INFO] jarvis.audit: google_search | OK | params={'query': 'find for kylie jenner.'} | 'find for kylie jenner.' Google-এ search করা হচ্ছে।
 2026-05-17 14:03:49 [INFO] jarvis.main: [MAIN] Ctrl+C received. Shutting down.
+2026-05-17 15:29:12 [INFO] jarvis.settings: Logging ready → E:/Projects/JARVIS/logs\jarvis.log  level=INFO
+2026-05-17 15:29:12 [INFO] jarvis.main: Initialising JARVIS modules…
+2026-05-17 15:29:12 [INFO] jarvis.tts: TTS engine ready (dedicated thread).
+2026-05-17 15:29:12 [INFO] jarvis.listener: Loading Whisper model 'base' (English only)…
+2026-05-17 15:29:12 [INFO] comtypes.client._code_cache: Imported existing <module 'comtypes.gen' from 'C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2026-05-17 15:29:12 [INFO] comtypes.client._code_cache: Using writeable comtypes cache directory: 'C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2026-05-17 15:29:14 [INFO] httpx: HTTP Request: GET https://huggingface.co/api/models/Systran/faster-whisper-base/revision/main "HTTP/1.1 200 OK"
+2026-05-17 15:29:14 [INFO] jarvis.listener: Whisper model loaded.
+2026-05-17 15:29:14 [INFO] jarvis.intent: IntentEngine ready — 8 rules.
+2026-05-17 15:29:14 [INFO] jarvis.main: JARVIS ready | listen=ctrl+alt | stop=ctrl+shift+x | quit=Ctrl+C
+2026-05-17 15:29:29 [INFO] faster_whisper: Processing audio with duration 00:06.272
+2026-05-17 15:29:29 [INFO] faster_whisper: VAD filter removed 00:02.256 of audio
+2026-05-17 15:29:30 [INFO] jarvis.listener: [LISTENER] Transcription result: 'Find C-seal Collection 10.2'
+2026-05-17 15:29:30 [INFO] jarvis.main: [MAIN] Heard: 'Find C-seal Collection 10.2'
+2026-05-17 15:29:30 [INFO] jarvis.buyer_registry: BuyerRegistry loaded 1 buyer(s).
+2026-05-17 15:29:30 [INFO] jarvis.intent: Intent: find_collection_po | params={'buyer': 'Cecil', 'coll_encoded': '100'}
+2026-05-17 15:29:30 [INFO] jarvis.main: [MAIN] Intent matched: find_collection_po | Params: {'buyer': 'Cecil', 'coll_encoded': '100'}
+2026-05-17 15:29:37 [INFO] jarvis.listener: [LISTENER] Confirmation result: True
+2026-05-17 15:29:37 [INFO] jarvis.main: [MAIN] Confirmed. Executing action: find_collection_po
+2026-05-17 15:29:37 [INFO] jarvis.workflows.outlook: Collection search: buyer=Cecil  code=2026100  po=any
+2026-05-17 15:29:37 [INFO] jarvis.workflows.outlook: Best match [score=115] after scanning 200 emails: 'FW: NOS of coll 2026100'
+2026-05-17 15:29:38 [INFO] jarvis.workflows.outlook: Saved attachment: E:/Projects/JARVIS/attachments\Cecil\2026100\319928.pdf
+2026-05-17 15:29:38 [INFO] jarvis.workflows.outlook: Saved attachment: E:/Projects/JARVIS/attachments\Cecil\2026100\325886.pdf
+2026-05-17 15:29:38 [INFO] jarvis.workflows.outlook: Saved attachment: E:/Projects/JARVIS/attachments\Cecil\2026100\325903.pdf
+2026-05-17 15:29:38 [INFO] jarvis.workflows.outlook: Saved attachment: E:/Projects/JARVIS/attachments\Cecil\2026100\326025.pdf
+2026-05-17 15:29:38 [INFO] jarvis.workflows.outlook: Saved attachment: E:/Projects/JARVIS/attachments\Cecil\2026100\326042.pdf
+2026-05-17 15:29:38 [INFO] jarvis.workflows.outlook: Saved attachment: E:/Projects/JARVIS/attachments\Cecil\2026100\326054.pdf
+2026-05-17 15:29:38 [INFO] jarvis.workflows.outlook: Saved attachment: E:/Projects/JARVIS/attachments\Cecil\2026100\326069.pdf
+2026-05-17 15:29:38 [INFO] jarvis.workflows.outlook: Saved 7 PDF(s) | POs: []
+2026-05-17 15:29:39 [INFO] jarvis.audit: find_collection_po | OK | params={'buyer': 'Cecil', 'coll_encoded': '100'} | Found email from nadim@pantexbd.com. Received 07 May 2026. No PO PDFs found in this email.
+2026-05-17 15:30:21 [INFO] jarvis.main: [MAIN] Ctrl+C received. Shutting down.
+2026-05-18 10:03:55 [INFO] jarvis.settings: Logging ready → E:/Projects/JARVIS/logs\jarvis.log  level=INFO
+2026-05-18 10:03:55 [INFO] jarvis.main: Initialising JARVIS modules…
+2026-05-18 10:03:55 [INFO] jarvis.tts: TTS engine ready (dedicated thread).
+2026-05-18 10:03:55 [INFO] jarvis.listener: Loading Whisper model 'base' (English only)…
+2026-05-18 10:03:55 [INFO] comtypes.client._code_cache: Imported existing <module 'comtypes.gen' from 'C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2026-05-18 10:03:55 [INFO] comtypes.client._code_cache: Using writeable comtypes cache directory: 'C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2026-05-18 10:03:56 [INFO] httpx: HTTP Request: GET https://huggingface.co/api/models/Systran/faster-whisper-base/revision/main "HTTP/1.1 200 OK"
+2026-05-18 10:03:57 [INFO] jarvis.listener: Whisper model loaded.
+2026-05-18 10:03:57 [INFO] jarvis.intent: IntentEngine ready — 8 rules.
+2026-05-18 10:03:57 [INFO] jarvis.main: JARVIS ready | listen=ctrl+alt | stop=ctrl+shift+x | quit=Ctrl+C
+2026-05-18 10:04:21 [INFO] faster_whisper: Processing audio with duration 00:04.736
+2026-05-18 10:04:22 [INFO] faster_whisper: VAD filter removed 00:01.712 of audio
+2026-05-18 10:04:24 [INFO] jarvis.listener: [LISTENER] Transcription result: 'Train CISIL Collection BDF'
+2026-05-18 10:04:24 [INFO] jarvis.main: [MAIN] Heard: 'Train CISIL Collection BDF'
+2026-05-18 10:04:24 [INFO] jarvis.buyer_registry: BuyerRegistry loaded 1 buyer(s).
+2026-05-18 10:04:24 [INFO] jarvis.intent: Intent: find_collection_po | params={}
+2026-05-18 10:04:24 [INFO] jarvis.main: [MAIN] Intent matched: find_collection_po | Params: {}
+2026-05-18 10:04:33 [INFO] faster_whisper: Processing audio with duration 00:03.392
+2026-05-18 10:04:33 [INFO] faster_whisper: VAD filter removed 00:02.480 of audio
+2026-05-18 10:04:38 [INFO] jarvis.listener: [LISTENER] Confirmation result: False
+2026-05-18 10:04:38 [INFO] jarvis.main: [MAIN] User cancelled action: find_collection_po
+2026-05-18 10:04:49 [INFO] faster_whisper: Processing audio with duration 00:06.016
+2026-05-18 10:04:49 [INFO] faster_whisper: VAD filter removed 00:02.712 of audio
+2026-05-18 10:04:50 [INFO] jarvis.listener: [LISTENER] Transcription result: 'Brain Cicil Collection BDF'
+2026-05-18 10:04:50 [INFO] jarvis.main: [MAIN] Heard: 'Brain Cicil Collection BDF'
+2026-05-18 10:04:50 [INFO] jarvis.intent: Intent: find_collection_po | params={}
+2026-05-18 10:04:50 [INFO] jarvis.main: [MAIN] Intent matched: find_collection_po | Params: {}
+2026-05-18 10:04:59 [INFO] faster_whisper: Processing audio with duration 00:03.712
+2026-05-18 10:04:59 [INFO] faster_whisper: VAD filter removed 00:02.480 of audio
+2026-05-18 10:05:07 [INFO] jarvis.listener: [LISTENER] Confirmation result: False
+2026-05-18 10:05:07 [INFO] jarvis.main: [MAIN] User cancelled action: find_collection_po
+2026-05-18 10:05:15 [INFO] jarvis.main: [MAIN] Ctrl+C received. Shutting down.
+2026-05-18 10:05:16 [INFO] jarvis.main: [MAIN] Ctrl+C received. Shutting down.

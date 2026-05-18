@@ -1,26 +1,48 @@
-# JARVIS Phase 1 — Windows 11 only
+# JARVIS Phase 2 — Windows 11 only
 # Install: pip install -r requirements.txt
 
-# Speech-to-Text (offline, Banglish-capable)
+# ── Speech-to-Text (offline) ──────────────────────────────────────────────────
 faster-whisper==1.0.3
 pyaudio==0.2.14
 
-# Text-to-Speech (offline, Windows SAPI5)
+# ── Text-to-Speech (offline, Windows SAPI5) ───────────────────────────────────
 pyttsx3==2.90
 
-# Keyboard / Mouse automation
+# ── Keyboard / Mouse automation ───────────────────────────────────────────────
 pyautogui==0.9.54
 keyboard==0.13.5
 pygetwindow==0.0.9
 pynput==1.7.6
 
-# Outlook COM automation (Windows only)
+# ── Outlook COM automation (Windows only) ─────────────────────────────────────
 pywin32==306
 
-# Config + YAML
+# ── Config + YAML ─────────────────────────────────────────────────────────────
 PyYAML==6.0.1
 
-# Audio processing
+# ── Audio processing ──────────────────────────────────────────────────────────
 numpy==1.26.4
 
-# SQLite is built into Python — no install needed for memory.py
+# ── PDF processing (Phase 2) ──────────────────────────────────────────────────
+# PyMuPDF: fast PDF rendering + direct text extraction (no external dependencies)
+# This is the PRIMARY PDF library. Preferred over pdf2image/poppler.
+# ~15MB install, ~20-40MB RAM per page at 150 DPI. Runs fine on 8GB.
+pymupdf==1.24.3
+
+# ── OCR (Phase 2 — Tier 2 fallback for scanned PDFs) ─────────────────────────
+# Tesseract must be installed separately on Windows:
+#   https://github.com/UB-Mannheim/tesseract/wiki
+# After installing, add to PATH or set pytesseract.pytesseract.tesseract_cmd
+pytesseract==0.3.10
+
+# Pillow: required for image manipulation (region cropping, display in trainer UI)
+Pillow==10.3.0
+
+# ── SQLite is built into Python — no install needed for memory.py ─────────────
+
+# ── NOT included (intentionally) ─────────────────────────────────────────────
+# EasyOCR       — too heavy (400MB model, slow on CPU, no benefit for clean POs)
+# LangChain     — not needed (no LLM in Phase 2)
+# pdf2image     — requires poppler binary; PyMuPDF covers this use case
+# opencv-python — not needed yet (Phase 4: visual screen understanding)
+# Playwright    — not needed yet (Phase 2 browser: webbrowser module is enough)
